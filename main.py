@@ -1,18 +1,18 @@
 import re
+from abc import ABC
 from typing import Optional, Any
 
 
-class Supplier:
-    def __init__(self, 
-                 supplier_id: int, 
-                 name: str, 
-                 phone: str,
-                 address: Optional[str] = None, ):
+# Базовый класс, от которого наследуем Полный и Краткий
+class SupplierBase(ABC):
+    def __init__(self,
+                 supplier_id: int,
+                 name: str):
         self.supplier_id = supplier_id
         self.name = name
-        self.address = address
-        self.phone = phone
-        
+
+
+    '''supplier_id: сеттер и валидация'''
     
     @property
     def supplier_id(self) -> int:
@@ -25,6 +25,12 @@ class Supplier:
                               "быть положительным целым числом!")
         self._supplier_id = value
         
+    @staticmethod
+    def _validate_supplier_id(value) -> bool:
+        return isinstance(value, int) and value > 0
+    
+
+    '''поле name: сеттер и валидация'''
     
     @property
     def name(self) -> str:
@@ -33,10 +39,33 @@ class Supplier:
     @name.setter
     def name(self, value: str):
         if not self._validate_name(value):
-            raise ValueError("Вы не ввели имя поставщика!")
+            raise ValueError("Некорректное имя поставщика!")
         self._name = value
-        
     
+    @staticmethod
+    def _validate_name(value) -> bool:
+        return isinstance(value, str) and 1 <= len(value) <= 100
+        
+        
+        
+        
+        
+
+class Supplier(SupplierBase):
+    '''Полная версия поставщика'''
+    
+    def __init__(self, 
+                 supplier_id: int, 
+                 name: str, 
+                 phone: str,
+                 address: Optional[str] = None
+                 ):
+        super().__init__(supplier_id, name)
+        self.address = address
+        self.phone = phone
+        
+
+    '''поле address'''
     @property
     def address(self) -> Optional[str]:
         return self._address
@@ -47,7 +76,14 @@ class Supplier:
             raise ValueError("Адрес слишком длинный! (>200 симоволов)")
         self._address = value
         
+    @staticmethod
+    def _validate_address(value) -> bool:
+        if value is None:
+            return True
+        return isinstance(value, str) and len(value) <= 200
+        
     
+    '''поле phone'''
     @property
     def phone(self) -> str:
         return self._phone
@@ -57,24 +93,6 @@ class Supplier:
         if not self._validate_phone(value):
             raise ValueError("Некорректно набран номер!")
         self._phone = value
-        
-        
-        
-    # Валидация
-    
-    @staticmethod
-    def _validate_supplier_id(value) -> bool:
-        return isinstance(value, int) and value > 0
-    
-    @staticmethod
-    def _validate_name(value) -> bool:
-        return isinstance(value, str) and 1 <= len(value) <= 100
-    
-    @staticmethod
-    def _validate_address(value) -> bool:
-        if value is None:
-            return True
-        return isinstance(value, str) and len(value) <= 200
     
     @staticmethod
     def _validate_phone(value) -> bool:
@@ -87,6 +105,7 @@ class Supplier:
         # +7 (999) 123-45-67
         # 89991234567
         return bool(re.match(mask, value.strip())) if value.strip() else False
+        
     
     
     
@@ -138,11 +157,7 @@ class Supplier:
         )
         
         
-
-    
-    # Доп методы для красивого вывода Объектов и их сравнения
-    
-    
+    # Доп методы для красивого вывода Объектов и их сравнения 
     '''Краткая версия'''
     def __str__(self) -> str:
         return f"Поставщик: {self._name} (id: {self._supplier_id})"
@@ -165,11 +180,67 @@ class Supplier:
                 self._phone == other._phone)
         
         
+    '''Преобразование полного Supplier в краткий SupplierMini'''
+    def to_mini(self) -> 'SupplierMini':
+        return SupplierMini(self._supplier_id, self._name)
+    
+        
+
+
 
 
 '''Класс, содержащий только имя поставщика и его id'''
-class SupplierMini:
-    def __init__(self,
-                 supplier_id: int, 
-                 name: str):
-        pass
+class SupplierMini(SupplierBase):
+    # Перегрузка конструктора
+    
+    # из словаря (JSON)
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> 'SupplierMini':
+        try:
+            return cls(
+                supplier_id = data['supplier_id'],
+                name = data['name'],
+            )
+        except KeyError as e:
+            raise ValueError(f'Отсутствует необходимоее поле: {e}')
+        except TypeError as e:
+            raise ValueError(f'Неправильный тип данных: {e}')
+    
+    
+    # Из CSV или просто строки
+    @classmethod
+    def from_csv_string(cls, csv_str: str) -> 'SupplierMini':
+        """_summary_
+        Args:
+            csv_str (str): строка вида id,name
+        Returns:
+            Supplier: _description_
+        """
+        parts = [part.strip() for part in csv_str.split(',')]
+        if len(parts) != 2:
+            raise ValueError('Строка ОБЯЗАТЕЛЬНО должна иметь '+
+                             'id и наименование')
+            
+        try:
+            supplier_id = int(parts[0])
+        except ValueError:
+            raise ValueError("id должен быть целым числом")
+        name = parts[1]
+        if not name:
+            raise ValueError("Вы не ввели наименование!")
+        
+        return cls(supplier_id=supplier_id, name = name)
+        
+        
+    # Доп методы для красивого вывода Объектов и их сравнения 
+    
+    def __str__(self) -> str:
+        return f"Поставщик: {self._name} (id: {self._supplier_id})"
+       
+    
+    '''Cравнение двух объектов по данным, а не по их местоположению в памяти'''
+    def __eq__(self, other):
+        if not isinstance(other, SupplierMini):
+            return False
+        return (self._supplier_id == other._supplier_id and
+                self._name == other._name)
