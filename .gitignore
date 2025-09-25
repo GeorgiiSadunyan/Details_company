@@ -1,0 +1,10 @@
+# MySQL Workbench бэкапы
+*.mwb.bak
+
+.vscode/
+*.swp
+.DS_Store
+
+__pycache__/
+*.pyc
+.env
