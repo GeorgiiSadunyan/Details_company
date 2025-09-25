@@ -86,7 +86,6 @@ class Supplier:
         # Примеры допустимых форматов:
         # +7 (999) 123-45-67
         # 89991234567
-        # (123) 456-7890        
         return bool(re.match(mask, value.strip())) if value.strip() else False
     
     
@@ -137,3 +136,30 @@ class Supplier:
             phone = phone,
             address = address
         )
+        
+        
+
+    
+    # Доп методы для красивого вывода Объектов и их сравнения
+    
+    
+    '''Краткая версия'''
+    def __str__(self) -> str:
+        return f"Поставщик: {self._name} (id: {self._supplier_id})"
+    
+    
+    '''Полный вывод информации об объекте'''
+    def __repr__(self):
+        return (f"( ID = {self._supplier_id}, "
+                f"Наименование = '{self._name}', Адрес = '{self._address}', "
+                f"Телефон = '{self._phone}' )" )
+        
+    
+    '''Cравнение двух объектов по данным, а не по их местоположению в памяти'''
+    def __eq__(self, other):
+        if not isinstance(other, Supplier):
+            return False
+        return (self._supplier_id == other._supplier_id and
+                self._name == other._name and
+                self._address == other._address and
+                self._phone == other._phone)
