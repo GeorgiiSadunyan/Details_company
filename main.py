@@ -1,5 +1,5 @@
 import re
-from typing import Optional
+from typing import Optional, Any
 
 
 class Supplier:
@@ -91,35 +91,49 @@ class Supplier:
     
     
     
-    # Доп методы для красивого вывода Объектов и их сравнения
+    # Перегрузка конструктора
     
-    def __repr__(self):
-        return (f"Поставщик( ID = {self._supplier_id}, "
-                f"Наименование = '{self._name}', Адрес = '{self._address}', "
-                f"Телефон = '{self._phone}' )" )
-        
+    # из словаря (JSON)
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> 'Supplier':
+        try:
+            return cls(
+                supplier_id = data['supplier_id'],
+                name = data['name'],
+                phone = data['phone'],
+                address = data.get('address') #может отсутствовать
+            )
+        except KeyError as e:
+            raise ValueError(f'Отсутствует необходимоее поле: {e}')
+        except TypeError as e:
+            raise ValueError(f'Неправильный тип данных: {e}')
     
-    # сравнение двух объектов по данным, а не по их местоположению в памяти
-    def __eq__(self, other):
-        if not isinstance(other, Supplier):
-            return False
-        return (self._supplier_id == other._supplier_id and
-                self._name == other._name and
-                self._address == other._address and
-                self._phone == other._phone)
     
+    # Из CSV или просто строки
+    @classmethod
+    def from_csv_string(cls, csv_str: str) -> 'Supplier':
+        """_summary_
+        Args:
+            csv_str (str): строка вида id,name,address,phone
+        Returns:
+            Supplier: _description_
+        """
+        parts = [part.strip() for part in csv_str.split(',')]
+        if len(parts) not in (3, 4):
+            raise ValueError('Строка ОБЯЗАТЕЛЬНО должна иметь '+
+                             'id, наименование, телефон')
+            
+        supplier_id = int(parts[0])
+        name = parts[1]
+        phone = parts[-1]
+        address = None
+        if len(parts) == 4:
+            adr = parts[2] # там может ничего не быть (,,)
+            address = adr if adr!='' else None
 
-
-
-
-# Успешное создание
-try:
-    s1 = Supplier(
-        supplier_id=1,
-        name="АвтоДеталь ООО",
-        address= "Москва, Тверская 10",
-        phone="+7 (999) 123-45-67"
-    )
-    print(s1)
-except ValueError as e:
-    print("Ошибка:", e)
+        return cls(
+            supplier_id=supplier_id,
+            name = name,
+            phone = phone,
+            address = address
+        )
