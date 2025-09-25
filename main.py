@@ -163,3 +163,13 @@ class Supplier:
                 self._name == other._name and
                 self._address == other._address and
                 self._phone == other._phone)
+        
+        
+
+
+'''Класс, содержащий только имя поставщика и его id'''
+class SupplierMini:
+    def __init__(self,
+                 supplier_id: int, 
+                 name: str):
+        pass
