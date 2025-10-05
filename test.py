@@ -19,18 +19,19 @@ data = {
     "phone": "+78887776655",
     "address": None
 }
-s2 = Supplier.from_dict(data)
+s2 = Supplier(data)
 print(s2)
 
 
 # Строка
 # С адресом
-s3 = Supplier.from_csv_string("3,Автоцентр,Санкт-Петербург,+71234567890")
+s3 = Supplier("3,Автоцентр,Санкт-Петербург,+71234567890")
 # Без адреса (3 поля)
-s4 = Supplier.from_csv_string("4,МагазинЗапчастей,+70001112233")
-print(s3)
+s4 = Supplier("4,МагазинЗапчастей,+70001112233")
+print(repr(s3))
 print(s4)
-
+print('++++++++++++++++++++++++++++++++++')
+print(s3.to_mini())
 
 
 
@@ -57,17 +58,17 @@ def test_supplier_from_dict():
         "phone": "+71234567890",
         "address": None
     }
-    s = Supplier.from_dict(data)
+    s = Supplier(data)
     assert s.supplier_id == 3
     assert s.address is None
 
 def test_supplier_from_csv_4_fields():
-    s = Supplier.from_csv_string("4,Магазин,Санкт-Петербург,+71112223344")
+    s = Supplier("4,Магазин,Санкт-Петербург,+71112223344")
     assert s.supplier_id == 4
     assert s.address == "Санкт-Петербург"
 
 def test_supplier_from_csv_3_fields():
-    s = Supplier.from_csv_string("5,Магазин,+71112223344")
+    s = Supplier("5,Магазин,+71112223344")
     assert s.supplier_id == 5
     assert s.address is None
 
@@ -95,12 +96,12 @@ def test_supplier_mini_creation():
 # ❌НАМЕРЕННАЯ ОШИБКА: в словаре нет поля 'name'
 def test_supplier_mini_from_dict():
     data = {"supplier_id": 11}  # ← нет 'name'!
-    m = SupplierMini.from_dict(data)
+    m = SupplierMini(data)
     assert m.supplier_id == 11
 
 # ❌НАМЕРЕННАЯ ОШИБКА: CSV с пустым именем
 def test_supplier_mini_from_csv():
-    m = SupplierMini.from_csv_string("12,")  # ← имя пустое → ошибка валидации
+    m = SupplierMini("12,")  # ← имя пустое → ошибка валидации
     assert m.supplier_id == 12
 
 def test_supplier_mini_eq():
@@ -117,7 +118,7 @@ def test_supplier_invalid_id():
 
 def test_supplier_mini_invalid_csv_format():
     with pytest.raises(ValueError, match="должна иметь id и наименование"):
-        SupplierMini.from_csv_string("1")  # мало полей
+        SupplierMini("1")  # мало полей
 
 def test_supplier_invalid_phone():
     with pytest.raises(ValueError, match="Некорректно набран номер"):
@@ -125,9 +126,9 @@ def test_supplier_invalid_phone():
 
 def test_supplier_mini_invalid_id_in_csv():
     with pytest.raises(ValueError, match="id должен быть целым числом"):
-        SupplierMini.from_csv_string("abc,Название")
+        SupplierMini("abc,Название")
 
 # ❌НАМЕРЕННАЯ ОШИБКА: тест должен проверять ошибку, но НЕ использует pytest.raises
 def test_supplier_missing_field_in_dict():
     # Этот тест УПАДЁТ, потому что мы НЕ ловим исключение
-    Supplier.from_dict({"name": "Тест", "phone": "+7999"})  # ← нет supplier_id → ValueError!
+    Supplier({"name": "Тест", "phone": "+7999"})  # ← нет supplier_id → ValueError!

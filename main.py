@@ -1,13 +1,10 @@
 import re
 from abc import ABC
-from typing import Optional, Any
+from typing import Optional
 
 
-# Базовый класс, от которого наследуем Полный и Краткий
 class SupplierBase(ABC):
-    def __init__(self,
-                 supplier_id: int,
-                 name: str):
+    def __init__(self, supplier_id: int, name: str):
         self.supplier_id = supplier_id
         self.name = name
 
@@ -27,7 +24,7 @@ class SupplierBase(ABC):
         
     @staticmethod
     def _validate_supplier_id(value) -> bool:
-        return isinstance(value, int) and value > 0
+        return isinstance(value, int) and value >= 0
     
 
     '''поле name: сеттер и валидация'''
@@ -44,8 +41,8 @@ class SupplierBase(ABC):
     
     @staticmethod
     def _validate_name(value) -> bool:
-        return isinstance(value, str) and 1 <= len(value) <= 100
-        
+        pattern = r'^(?=.*[a-zA-Zа-яА-ЯёЁ])[a-zA-Zа-яА-ЯёЁ0-9\s\-]+$'
+        return isinstance(value, str) and 1 <= len(value) <= 100 and bool(re.match(pattern, value))
         
         
         
@@ -54,17 +51,107 @@ class SupplierBase(ABC):
 class Supplier(SupplierBase):
     '''Полная версия поставщика'''
     
-    def __init__(self, 
-                 supplier_id: int, 
-                 name: str, 
-                 phone: str,
-                 address: Optional[str] = None
-                 ):
-        super().__init__(supplier_id, name)
-        self.address = address
-        self.phone = phone
+    def __init__(self, *args, **kwargs):
+        self._supplier_id = None
+        self._name = None
+        self._phone = None
+        self._address = None
         
+        if args:
+            if len(args) == 1 and not kwargs:
+                arg = args[0] 
+                if isinstance(arg, dict):
+                    self._init_from_dict(arg)
+                elif isinstance(arg, str):
+                    self._init_from_string(arg)
+                else:
+                    raise ValueError("Hеподдерживаемый тип аргумента")
+            
+            elif len(args) in (3, 4) and not kwargs:
+                self._init_from_args(*args)
+            
+            else:
+                raise ValueError("Неправильное количество аргументов!")
+            
+        elif kwargs:
+            self._init_from_kwargs(kwargs)
+        else:
+            raise ValueError("Не переданы аргументы")
+    
+    
+    '''Перегрузка конструктора'''
+    
+    
+    def _init_from_args(self, supplier_id, name, phone, address = None):
+        '''Из позиционных аргументов'''
+        
+        super().__init__(supplier_id, name)
+        self.phone = phone
+        self.address = address
+    
+    
+    def _init_from_dict(self, data: dict):
+        '''Из словаря (JSON)'''
+        
+        try:
+            supplier_id = data['supplier_id']
+            name = data['name']
+            phone = data['phone']
+            address = data.get('address') #может отсутствовать
+        except KeyError as e:
+            raise ValueError(f'Отсутствует необходимоее поле: {e}')
+        
+        super().__init__(supplier_id, name)
+        self.phone = phone
+        self.address = address
+    
+    
+    def _init_from_string(self, csv_str: str):
+        '''Из CSV или просто строки'''
 
+        parts = [part.strip() for part in csv_str.split(',')]
+        
+        if len(parts) not in (3, 4):
+            raise ValueError('Строка ОБЯЗАТЕЛЬНО должна иметь '+
+                             'id, наименование и телефон')
+            
+        try:
+            supplier_id = int(parts[0])
+        except ValueError:
+            raise ValueError("ID должен быть целым числом")
+        
+        name = parts[1]
+        phone = parts[-1]
+        address = None
+        
+        if len(parts) == 4:
+            adr = parts[2]
+            address = adr if adr != '' else None
+
+        super().__init__(supplier_id, name)
+        self.phone = phone
+        self.address = address
+    
+    
+    def _init_from_kwargs(self, kwargs: dict):
+        '''Инициализация из kwargs''' 
+
+        # Проверка обязательных полей
+        required_fields = ['supplier_id', 'name', 'phone']
+        missing_fields = [field for field in required_fields if field not in kwargs]
+        if missing_fields:
+            raise ValueError(f"Отсутствуют обязательные поля: {', '.join(missing_fields)}")
+        
+        supplier_id = kwargs['supplier_id']
+        name = kwargs['name']
+        phone = kwargs['phone']
+        address = kwargs.get('address')
+        
+        super().__init__(supplier_id, name)
+        self.phone = phone
+        self.address = address
+    
+    
     '''поле address'''
     @property
     def address(self) -> Optional[str]:
@@ -108,56 +195,9 @@ class Supplier(SupplierBase):
         
     
     
-    
-    # Перегрузка конструктора
-    
-    # из словаря (JSON)
-    @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> 'Supplier':
-        try:
-            return cls(
-                supplier_id = data['supplier_id'],
-                name = data['name'],
-                phone = data['phone'],
-                address = data.get('address') #может отсутствовать
-            )
-        except KeyError as e:
-            raise ValueError(f'Отсутствует необходимоее поле: {e}')
-        except TypeError as e:
-            raise ValueError(f'Неправильный тип данных: {e}')
-    
-    
-    # Из CSV или просто строки
-    @classmethod
-    def from_csv_string(cls, csv_str: str) -> 'Supplier':
-        """_summary_
-        Args:
-            csv_str (str): строка вида id,name,address,phone
-        Returns:
-            Supplier: _description_
-        """
-        parts = [part.strip() for part in csv_str.split(',')]
-        if len(parts) not in (3, 4):
-            raise ValueError('Строка ОБЯЗАТЕЛЬНО должна иметь '+
-                             'id, наименование, телефон')
-            
-        supplier_id = int(parts[0])
-        name = parts[1]
-        phone = parts[-1]
-        address = None
-        if len(parts) == 4:
-            adr = parts[2] # там может ничего не быть (,,)
-            address = adr if adr!='' else None
-
-        return cls(
-            supplier_id=supplier_id,
-            name = name,
-            phone = phone,
-            address = address
-        )
-        
-        
-    # Доп методы для красивого вывода Объектов и их сравнения 
+    # Доп методы для красивого вывода Объектов и их сравнения
+     
+     
     '''Краткая версия'''
     def __str__(self) -> str:
         return f"Поставщик: {self._name} (id: {self._supplier_id})"
@@ -191,32 +231,47 @@ class Supplier(SupplierBase):
 
 '''Класс, содержащий только имя поставщика и его id'''
 class SupplierMini(SupplierBase):
+    
+    def __init__(self, *args, **kwargs):
+        if args:
+            if len(args) == 1:
+                arg = args[0]
+                if isinstance(arg, dict):
+                    self._init_from_dict(arg)
+                elif isinstance(arg, str):
+                    self._init_from_string(arg)
+                else:
+                    raise ValueError("Неподдерживаемый тип аргумента. "+
+                                     "Ожидается dict или str")
+                    
+            elif len(args) == 2:
+                # Два аргумента
+                super().__init__(args[0], args[1])
+                
+            else:
+                raise ValueError("Слишком много позиционных аргументов."+
+                                "Максимум 2: supplier_id, name")
+        elif kwargs:
+            self._init_from_kwargs(kwargs)
+        else:
+            raise ValueError("Не переданы аргументы")
+    
     # Перегрузка конструктора
     
-    # из словаря (JSON)
-    @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> 'SupplierMini':
+    def _init_from_dict(self, data: dict):
         try:
-            return cls(
-                supplier_id = data['supplier_id'],
-                name = data['name'],
-            )
+            supplier_id = data['supplier_id']
+            name = data['name']
         except KeyError as e:
-            raise ValueError(f'Отсутствует необходимоее поле: {e}')
-        except TypeError as e:
-            raise ValueError(f'Неправильный тип данных: {e}')
+            raise ValueError(f'Отсутствует необходимое поле: {e}')
+        
+        super().__init__(supplier_id, name)
     
     
-    # Из CSV или просто строки
-    @classmethod
-    def from_csv_string(cls, csv_str: str) -> 'SupplierMini':
-        """_summary_
-        Args:
-            csv_str (str): строка вида id,name
-        Returns:
-            Supplier: _description_
-        """
+    def _init_from_string(self, csv_str: str):
+        
         parts = [part.strip() for part in csv_str.split(',')]
+        
         if len(parts) != 2:
             raise ValueError('Строка ОБЯЗАТЕЛЬНО должна иметь '+
                              'id и наименование')
@@ -225,14 +280,27 @@ class SupplierMini(SupplierBase):
             supplier_id = int(parts[0])
         except ValueError:
             raise ValueError("id должен быть целым числом")
+        
         name = parts[1]
         if not name:
             raise ValueError("Вы не ввели наименование!")
         
-        return cls(supplier_id=supplier_id, name = name)
+        super().__init__(supplier_id, name)
+
+    def _init_from_kwargs(self, kwargs: dict):
+        # Проверка обязательных полей
+        required_fields = ['supplier_id', 'name']
+        missing_fields = [field for field in required_fields if field not in kwargs]
+        if missing_fields:
+            raise ValueError(f"Отсутствуют обязательные поля: {', '.join(missing_fields)}")
+        
+        supplier_id = kwargs['supplier_id']
+        name = kwargs['name']
+        
+        super().__init__(supplier_id, name)
         
         
-    # Доп методы для красивого вывода Объектов и их сравнения 
+    
     
     def __str__(self) -> str:
         return f"Поставщик: {self._name} (id: {self._supplier_id})"
