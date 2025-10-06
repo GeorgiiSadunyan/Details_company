@@ -5,8 +5,8 @@ from typing import Optional
 
 class SupplierBase(ABC):
     def __init__(self, supplier_id: int, name: str):
-        self.supplier_id = supplier_id
-        self.name = name
+        self._supplier_id = supplier_id
+        self._name = name
 
 
     '''supplier_id: сеттер и валидация'''
