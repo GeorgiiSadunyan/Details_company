@@ -5,8 +5,8 @@ from typing import Optional
 
 class SupplierBase(ABC):
     def __init__(self, supplier_id: int, name: str):
-        self._supplier_id = supplier_id
-        self._name = name
+        self.supplier_id = supplier_id
+        self.name = name
 
 
     '''supplier_id: сеттер и валидация'''
@@ -52,11 +52,7 @@ class Supplier(SupplierBase):
     '''Полная версия поставщика'''
     
     def __init__(self, *args, **kwargs):
-        self._supplier_id = None
-        self._name = None
-        self._phone = None
-        self._address = None
-        
+                
         if args:
             if len(args) == 1 and not kwargs:
                 arg = args[0] 
@@ -195,28 +191,19 @@ class Supplier(SupplierBase):
         
     
     
-    # Доп методы для красивого вывода Объектов и их сравнения
-     
-     
-    '''Краткая версия'''
-    def __str__(self) -> str:
-        return f"Поставщик: {self._name} (id: {self._supplier_id})"
-    
-    
-    '''Полный вывод информации об объекте'''
-    def __repr__(self):
+    # Доп методы 
+        
+    def __str__(self):
         return (f"( ID = {self._supplier_id}, "
                 f"Наименование = '{self._name}', Адрес = '{self._address}', "
                 f"Телефон = '{self._phone}' )" )
         
     
-    '''Cравнение двух объектов по данным, а не по их местоположению в памяти'''
     def __eq__(self, other):
         if not isinstance(other, Supplier):
             return False
         return (self._supplier_id == other._supplier_id and
                 self._name == other._name and
-                self._address == other._address and
                 self._phone == other._phone)
         
         
