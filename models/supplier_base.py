@@ -1,7 +1,5 @@
 import re
 from abc import ABC
-from typing import Optional
-
 
 class SupplierBase(ABC):
     def __init__(self, supplier_id: int, name: str):

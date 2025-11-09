@@ -1,7 +1,6 @@
 import re
-from typing import Optional
-from supplier_base import SupplierBase
-from supplier_mini import SupplierMini
+from models.supplier_base import SupplierBase
+from models.supplier_mini import SupplierMini
 
 
 class Supplier(SupplierBase):
@@ -106,11 +105,11 @@ class Supplier(SupplierBase):
     
     '''поле address'''
     @property
-    def address(self) -> Optional[str]:
+    def address(self) -> str | None:
         return self._address
     
     @address.setter
-    def address(self, value: Optional[str]):
+    def address(self, value: str | None):
         if not self._validate_address(value):
             raise ValueError("Адрес слишком длинный! (>200 симоволов)")
         self._address = value
