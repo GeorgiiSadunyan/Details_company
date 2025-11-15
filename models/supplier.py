@@ -1,6 +1,6 @@
-import re
 from models.supplier_base import SupplierBase
 from models.supplier_mini import SupplierMini
+import re
 
 
 class Supplier(SupplierBase):
@@ -165,3 +165,12 @@ class Supplier(SupplierBase):
     '''Преобразование полного Supplier в краткий SupplierMini'''
     def to_mini(self) -> 'SupplierMini':
         return SupplierMini(self._supplier_id, self._name)
+    
+
+    def to_dict(self) -> dict:
+        return {
+            "supplier_id": self._supplier_id,
+            "name": self._name,
+            "phone": self._phone,
+            "address": self._address
+        }

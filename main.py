@@ -1,36 +1,34 @@
 from models.supplier_mini import SupplierMini
 from models.supplier import Supplier
+from utils.JSON.supplier_rep_json import Supplier_rep_json
 
 def main():
-    # обычный способ
-    s1 = Supplier(1, "АвтоДеталь", "+79991234567", "Москва")
-    print(s1)
-    print(repr(s1))
+    # Создаём репозиторий
+    repo = Supplier_rep_json('utils/JSON/suppliers.json')
 
-    # Сравнение
-    s5 = Supplier(1, "АвтоДеталь", "+79991234567", "Москва")
-    print(s1 == s5)
-    print()
+    # Добавляем поставщика
+    s = Supplier(supplier_id=0, name="Новый", phone="+71234567890", address="Город")
+    repo.add(s)
 
-    # Словарь JSON
-    data = {
-        "supplier_id": 2,
-        "name": "ЗапчастиПлюс",
-        "phone": "+78887776655",
-        "address": None
-    }
-    s2 = Supplier(data)
-    print(s2)
+    # Получаем все
+    all_suppliers = repo.get_all()
+    print(all_suppliers)
+    
+    # Получаем по ID
+    found = repo.get_by_id(1)
+    print(found)
 
-    # Строка
-    # С адресом
-    s3 = Supplier("3,Автоцентр,Санкт-Петербург,+71234567890")
-    # Без адреса (3 поля)
-    s4 = SupplierMini("4,МагазинЗапчастей")
+    # Сортировка
+    repo.sort_by_field('name')
 
-    print(s3)
-    print(s4)
-
+    
+    # Количество
+    count = repo.get_count()
+    print(count)
+    
+    s2 = Supplier(supplier_id=0, name="КрасСтрой", phone="+71234578777", address="ГородКраснодар")
+    repo.replace_by_id(1, s2)
+    
 
 
 if __name__ == "__main__":

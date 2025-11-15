@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0" version="28.2.5">
+  <diagram name="Страница — 1" id="Altg_YHGbq1eg4Om7HOk">
+    <mxGraphModel dx="975" dy="1004" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-1" value="SupplierBase" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="242" y="364" width="242" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-2" value="&lt;div&gt;- _supplier_id: int&lt;/div&gt;&lt;div&gt;- _name: str&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T0nY5k4eG5vuw4FXQXL_-1" vertex="1">
+          <mxGeometry y="26" width="242" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="T0nY5k4eG5vuw4FXQXL_-1" vertex="1">
+          <mxGeometry y="70" width="242" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-4" value="&lt;div&gt;+ supplier_id: int&lt;/div&gt;&lt;div&gt;+ name: str&lt;/div&gt;&lt;div&gt;+&amp;nbsp;{static}&amp;nbsp;_validate_supplier_id(): bool&lt;/div&gt;&lt;div&gt;+&amp;nbsp;{static}&amp;nbsp;_validate_name(): bool&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T0nY5k4eG5vuw4FXQXL_-1" vertex="1">
+          <mxGeometry y="78" width="242" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-18" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" parent="1" source="T0nY5k4eG5vuw4FXQXL_-9" target="T0nY5k4eG5vuw4FXQXL_-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-9" value="SupplierMini" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="66" y="613" width="312" height="229" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-10" value="---" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T0nY5k4eG5vuw4FXQXL_-9" vertex="1">
+          <mxGeometry y="26" width="312" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-11" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="T0nY5k4eG5vuw4FXQXL_-9" vertex="1">
+          <mxGeometry y="52" width="312" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-12" value="&lt;div&gt;- _init_from_dict (dict) : SupplierMini&amp;nbsp;&lt;/div&gt;&lt;div&gt;- _init_from_csv_string (str) :&amp;nbsp;SupplierMini&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;div&gt;- _init_from_csv_kwargs (kwargs) :&amp;nbsp;SupplierMini&amp;nbsp;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;+ ___str___() : str&lt;/div&gt;&lt;div&gt;+ ___eq___(other) : bool&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T0nY5k4eG5vuw4FXQXL_-9" vertex="1">
+          <mxGeometry y="60" width="312" height="169" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-19" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" parent="1" source="T0nY5k4eG5vuw4FXQXL_-13" target="T0nY5k4eG5vuw4FXQXL_-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-13" value="Supplier" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="457" y="613" width="261" height="327" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-14" value="&lt;div&gt;- _phone: str&lt;/div&gt;&lt;div&gt;- _address: str | None&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T0nY5k4eG5vuw4FXQXL_-13" vertex="1">
+          <mxGeometry y="26" width="261" height="57" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-15" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="T0nY5k4eG5vuw4FXQXL_-13" vertex="1">
+          <mxGeometry y="83" width="261" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="T0nY5k4eG5vuw4FXQXL_-16" value="+ phone: str&lt;br&gt;+ address: str | None&lt;br&gt;{static} + _validate_phone(): bool&lt;br&gt;{static} + _validate_address(): bool&lt;br&gt;&lt;div&gt;- _init_from_dict (dict) : Supplier&lt;/div&gt;&lt;div&gt;- _init_from_csv_string (str) :&amp;nbsp;Supplier&lt;/div&gt;&lt;div&gt;&lt;div&gt;- _init_from_csv_kwargs (kwargs) :&amp;nbsp;Supplier&lt;/div&gt;&lt;/div&gt;+ to_mini(): SupplierMini&lt;br&gt;+ __str__(): str&lt;br&gt;+ __eq__(other): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="T0nY5k4eG5vuw4FXQXL_-13" vertex="1">
+          <mxGeometry y="91" width="261" height="236" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

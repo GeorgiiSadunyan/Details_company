@@ -9,4 +9,4 @@ __pycache__/
 .pytest_cache
 *.pyc
 .env
-*.drawio
+*.json

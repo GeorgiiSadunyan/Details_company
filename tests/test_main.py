@@ -1,6 +1,6 @@
-import pytest
 from models.supplier_mini import SupplierMini
 from models.supplier import Supplier
+import pytest
 
 
 # ============ Тесты для Supplier ============
