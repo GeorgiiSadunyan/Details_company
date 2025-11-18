@@ -1,0 +1,13 @@
+- address: Совесткая 25
+  name: ДжубгаБетон
+  phone: '+79998883344'
+  supplier_id: 1
+- address: Ленина 4
+  name: АпшеронскМеталл
+  phone: '+79998888844'
+  supplier_id: 3
+- address: Селезнёва 2
+  name: КрасДонСтрой
+  phone: '+79993338844'
+  supplier_id: 4
+

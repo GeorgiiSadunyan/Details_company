@@ -1,18 +1,28 @@
 from models.supplier_mini import SupplierMini
 from models.supplier import Supplier
 from utils.JSON.supplier_rep_json import Supplier_rep_json
+from utils.YAML.supplier_rep_yaml import Supplier_rep_yaml
 
 def main():
-    # Создаём репозиторий
-    repo = Supplier_rep_json('utils/JSON/suppliers.json')
+    
+    # repo = Supplier_rep_json('utils/JSON/suppliers.json')
+    repo = Supplier_rep_yaml('utils/YAML/suppliers.yaml')
 
-    # Добавляем поставщика
-    s = Supplier(supplier_id=0, name="Новый", phone="+71234567890", address="Город")
-    repo.add(s)
+
+    supplier_dict = {
+        'supplier_id': 0,
+        'name': 'КрасДонСтрой',
+        'address': 'Селезнёва 2',
+        'phone': '+79993338844'
+    }
+
+    supplier1 = Supplier(supplier_dict)
+    repo.add(supplier1)
 
     # Получаем все
     all_suppliers = repo.get_all()
-    print(all_suppliers)
+    for supplier in all_suppliers:
+        print(supplier)
     
     # Получаем по ID
     found = repo.get_by_id(1)
@@ -21,14 +31,19 @@ def main():
     # Сортировка
     repo.sort_by_field('name')
 
-    
     # Количество
     count = repo.get_count()
     print(count)
     
-    s2 = Supplier(supplier_id=0, name="КрасСтрой", phone="+71234578777", address="ГородКраснодар")
-    repo.replace_by_id(1, s2)
     
+    supplier2 = Supplier(supplier_id=0, name="КрасСтрой", phone="+71234578777", address="ГородКраснодар")
+    repo.replace_by_id(1, supplier2)    
+
+
+    all_suppliers = repo.get_all()
+    for supplier in all_suppliers:
+        print(supplier)
+
 
 
 if __name__ == "__main__":

@@ -1,12 +1,12 @@
-import json
+import yaml
 from typing import Any
 from models.supplier import Supplier
 from models.supplier_mini import SupplierMini
 
 
-class Supplier_rep_json:
+class Supplier_rep_yaml:
     
-    '''Класс для работы с JSON'''
+    '''Класс для работы с YAML'''
     
     def __init__(self, file_path: str):
         self.file_path = file_path
@@ -14,18 +14,23 @@ class Supplier_rep_json:
 
 
     def _load_data(self) -> list[dict[str, Any]]:
-        """Загрузить данные из JSON-файла"""
+        
+        """Загрузить данные из YAML-файла"""
+        
         try:
             with open(self.file_path, 'r', encoding='utf-8') as f:
-                return json.load(f)
+                data = yaml.safe_load(f)
+                return data if data is not None else []
         except FileNotFoundError:
             return []
 
 
     def _save_data(self):
-        """Сохранить данные в JSON-файл"""
+        
+        """Сохранить данные в YAML-файл"""
+        
         with open(self.file_path, 'w', encoding='utf-8') as f:
-            json.dump(self.data, f, ensure_ascii=False, indent=2)
+            yaml.dump(self.data, f, allow_unicode=True)
 
 
     # a. Чтение всех значений из файла
@@ -80,7 +85,7 @@ class Supplier_rep_json:
     def replace_by_id(self, supplier_id: int, supplier: Supplier):
         for i, item in enumerate(self.data):
             if item['supplier_id'] == supplier_id:
-                supplier.supplier_id = supplier_id
+                supplier.supplier_id = supplier_id 
                 self.data[i] = supplier.to_dict()
                 self._save_data()
                 return

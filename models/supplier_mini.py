@@ -2,6 +2,7 @@ from models.supplier_base import SupplierBase
 
 
 class SupplierMini(SupplierBase):
+    
     '''Класс, содержащий только имя поставщика и его id'''
     
     def __init__(self, *args, **kwargs):
@@ -78,9 +79,21 @@ class SupplierMini(SupplierBase):
         return f"Поставщик: {self._name} (id: {self._supplier_id})"
        
     
-    '''Cравнение двух объектов по данным, а не по их местоположению в памяти'''
     def __eq__(self, other):
+        
+        '''Cравнение двух объектов по данным, а не по их местоположению в памяти'''
+
         if not isinstance(other, SupplierMini):
             return False
         return (self._supplier_id == other._supplier_id and
                 self._name == other._name)
+        
+        
+    def to_dict(self) -> dict:
+        
+        '''Преобразование в словарь'''
+        
+        return {
+            "supplier_id": self._supplier_id,
+            "name": self._name,
+        }
