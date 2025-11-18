@@ -1,7 +1,7 @@
 import json
 from typing import Any
-from models.supplier import Supplier
-from models.supplier_mini import SupplierMini
+from modules.supplier import Supplier
+from modules.supplier_mini import SupplierMini
 
 
 class Supplier_rep_json:

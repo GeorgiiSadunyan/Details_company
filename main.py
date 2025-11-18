@@ -1,7 +1,7 @@
-from models.supplier_mini import SupplierMini
-from models.supplier import Supplier
-from utils.JSON.supplier_rep_json import Supplier_rep_json
-from utils.YAML.supplier_rep_yaml import Supplier_rep_yaml
+from modules.supplier_mini import SupplierMini
+from modules.supplier import Supplier
+from modules.supplier_rep_json import Supplier_rep_json
+from modules.supplier_rep_yaml import Supplier_rep_yaml
 
 def main():
     

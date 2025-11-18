@@ -1,5 +1,5 @@
-from models.supplier_base import SupplierBase
-from models.supplier_mini import SupplierMini
+from modules.supplier_base import SupplierBase
+from modules.supplier_mini import SupplierMini
 import re
 
 
