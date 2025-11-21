@@ -35,7 +35,7 @@ class SupplierBase(ABC):
     @name.setter
     def name(self, value: str):
         if not self._validate_name(value):
-            raise ValueError("Некорректное имя поставщика!")
+            raise ValueError(f"Некорректное имя поставщика! {value}")
         self._name = value
     
     @staticmethod

@@ -1,5 +1,5 @@
-from models.supplier_mini import SupplierMini
-from models.supplier import Supplier
+from modules.supplier_mini import SupplierMini
+from modules.supplier import Supplier
 import pytest
 
 
@@ -28,7 +28,7 @@ def test_supplier_from_dict():
     assert s.address is None
 
 def test_supplier_from_csv_4_fields():
-    s = Supplier("4,Магазин,Санкт-Петербург,+71112223344")
+    s = Supplier("4,Магазин,+71112223344,Санкт-Петербург")
     assert s.supplier_id == 4
     assert s.address == "Санкт-Петербург"
 

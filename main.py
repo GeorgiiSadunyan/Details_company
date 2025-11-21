@@ -5,8 +5,8 @@ from modules.supplier_rep_yaml import Supplier_rep_yaml
 
 def main():
     
-    # repo = Supplier_rep_json('utils/JSON/suppliers.json')
-    repo = Supplier_rep_yaml('utils/YAML/suppliers.yaml')
+    # repo = Supplier_rep_json('utils/DB/suppliers.json')
+    repo = Supplier_rep_yaml('utils/DB/suppliers.yaml')
 
 
     supplier_dict = {

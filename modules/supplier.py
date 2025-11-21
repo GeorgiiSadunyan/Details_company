@@ -18,7 +18,7 @@ class Supplier(SupplierBase):
                 else:
                     raise ValueError("Hеподдерживаемый тип аргумента")
             
-            elif len(args) in (3, 4) and not kwargs:
+            elif len(args) in (2, 3, 4) and not kwargs:
                 self._init_from_args(*args)
             
             else:
@@ -33,22 +33,46 @@ class Supplier(SupplierBase):
     '''Перегрузка конструктора'''
     
     
-    def _init_from_args(self, supplier_id, name, phone, address = None):
+    def _init_from_args(self, *args):
         '''Из позиционных аргументов'''
         
-        super().__init__(supplier_id, name)
-        self.phone = phone
-        self.address = address
+        if len(args) == 2:
+            # name, phone
+            name, phone = args
+            supplier_id = 0
+            super().__init__(supplier_id, name)
+            self.phone = phone
+            self.address = None
+
+        elif len(args) == 3:
+            if isinstance(args[0], int):
+                # supplier_id, name, address
+                supplier_id, name, phone = args
+                address = None
+            else:
+                name, phone, address = args
+                supplier_id = 0
+            super().__init__(supplier_id, name)
+            self.phone = phone
+            self.address = address
+
+        elif len(args) == 4:
+            # supplier_id, name, phone, address
+            supplier_id, name, phone, address = args
+            supplier_id = supplier_id
+            super().__init__(supplier_id, name)
+            self.phone = phone
+            self.address = address
     
     
     def _init_from_dict(self, data: dict):
         '''Из словаря (JSON)'''
         
         try:
-            supplier_id = data['supplier_id']
+            supplier_id = data.get('supplier_id', 0) # может отсутствовать
             name = data['name']
             phone = data['phone']
-            address = data.get('address') #может отсутствовать
+            address = data.get('address') # может отсутствовать
         except KeyError as e:
             raise ValueError(f'Отсутствует необходимоее поле: {e}')
         
@@ -62,22 +86,41 @@ class Supplier(SupplierBase):
 
         parts = [part.strip() for part in csv_str.split(',')]
         
-        if len(parts) not in (3, 4):
+        if len(parts) not in (2, 3, 4):
             raise ValueError('Строка ОБЯЗАТЕЛЬНО должна иметь '+
-                             'id, наименование и телефон')
+                             'наименование и телефон. ' +
+                             'Опционально: id и адрес.')
+        
+        supplier_id, name, phone, address = [0, ' ', ' ', None]  
+        
+        if len(parts) == 2:
+            if parts[0].isdigit():
+                # id, name или id, phone
+                raise ValueError('Обязательно укажите Имя и Телефон организации')
+            name, phone = parts
+            supplier_id = 0
+            address = None
             
-        try:
-            supplier_id = int(parts[0])
-        except ValueError:
-            raise ValueError("ID должен быть целым числом")
-        
-        name = parts[1]
-        phone = parts[-1]
-        address = None
-        
-        if len(parts) == 4:
-            adr = parts[2]
-            address = adr if adr != '' else None
+        elif len(parts) == 3:
+            if parts[0].isdigit():
+                # id, name, phone
+                try:
+                    supplier_id = int(parts[0])
+                except ValueError:
+                    raise ValueError("ID должен быть целым числом")
+                name, phone = parts[1], parts[2]
+            else:
+                # name, phone, address
+                name, phone, address = parts
+                supplier_id = 0
+            
+        elif len(parts) == 4:
+            try:
+                supplier_id = int(parts[0])
+            except ValueError:
+                raise ValueError("ID должен быть целым числом")
+            name, phone, address = parts[1], parts[2], parts[3]
+
 
         super().__init__(supplier_id, name)
         self.phone = phone
@@ -88,12 +131,12 @@ class Supplier(SupplierBase):
         '''Инициализация из kwargs''' 
 
         # Проверка обязательных полей
-        required_fields = ['supplier_id', 'name', 'phone']
+        required_fields = ['name', 'phone']
         missing_fields = [field for field in required_fields if field not in kwargs]
         if missing_fields:
             raise ValueError(f"Отсутствуют обязательные поля: {', '.join(missing_fields)}")
         
-        supplier_id = kwargs['supplier_id']
+        supplier_id = kwargs.get('supplier_id', 0)
         name = kwargs['name']
         phone = kwargs['phone']
         address = kwargs.get('address')
@@ -101,6 +144,8 @@ class Supplier(SupplierBase):
         super().__init__(supplier_id, name)
         self.phone = phone
         self.address = address
+    
+    
     
     
     '''поле address'''
@@ -129,7 +174,7 @@ class Supplier(SupplierBase):
     @phone.setter
     def phone(self, value: str):
         if not self._validate_phone(value):
-            raise ValueError("Некорректно набран номер!")
+            raise ValueError(f"Некорректно набран номер! {value}")
         self._phone = value
     
     @staticmethod
@@ -167,9 +212,9 @@ class Supplier(SupplierBase):
         return SupplierMini(self._supplier_id, self._name)
     
 
-    def to_dict(self) -> dict:
+    def to_dict(self, supplier_id: int) -> dict:
         return {
-            "supplier_id": self._supplier_id,
+            "supplier_id": supplier_id,
             "name": self._name,
             "phone": self._phone,
             "address": self._address

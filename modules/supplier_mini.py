@@ -1,4 +1,4 @@
-from models.supplier_base import SupplierBase
+from modules.supplier_base import SupplierBase
 
 
 class SupplierMini(SupplierBase):
