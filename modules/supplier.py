@@ -202,8 +202,7 @@ class Supplier(SupplierBase):
     def __eq__(self, other):
         if not isinstance(other, Supplier):
             return False
-        return (self._supplier_id == other._supplier_id and
-                self._name == other._name and
+        return (self._name == other._name and
                 self._phone == other._phone)
         
         

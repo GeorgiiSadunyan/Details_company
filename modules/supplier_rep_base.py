@@ -76,6 +76,12 @@ class supplier_rep_base(ABC):
     
     # f. Добавить объект в список (с новым ID)
     def add(self, supplier: Supplier):
+        #проверка на уникальность
+        for item in self.data:
+            existing_supplier = Supplier(**item)
+            if existing_supplier == supplier:
+                raise ValueError(f"Поставщик уже существует! Имя: {supplier.name}, Тел: {supplier.phone}")
+        
         if not self.data:
             new_id = 1
         else:
