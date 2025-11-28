@@ -2,10 +2,6 @@
   name: АпшеронскМеталл
   phone: '+79998888844'
   supplier_id: 3
-- address: ГородКраснодар
-  name: КрасСтрой
-  phone: '+71234578777'
-  supplier_id: 1
 - address: Селезнёва 2
   name: КрасДонСтрой
   phone: '+79993338844'
@@ -14,3 +10,11 @@
   name: КрасДонСтрой
   phone: '+79993338844'
   supplier_id: 5
+- address: ГородКраснодар
+  name: КрасСтрой
+  phone: '+71234578777'
+  supplier_id: 1
+- address: null
+  name: КраснодарСтрой
+  phone: '+79882233444'
+  supplier_id: 6

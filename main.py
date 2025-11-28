@@ -1,50 +1,65 @@
-from modules.supplier_mini import SupplierMini
 from modules.supplier import Supplier
 from modules.supplier_rep_json import Supplier_rep_json
 from modules.supplier_rep_yaml import Supplier_rep_yaml
-
-def main():
-    
-    # repo = Supplier_rep_json('utils/DB/suppliers.json')
-    repo = Supplier_rep_yaml('utils/DB/suppliers.yaml')
+from modules.supplier_rep_DB import Supplier_rep_DB
+from config import host, user, password, db_name
+import random
 
 
-    supplier_dict = {
-        'supplier_id': 0,
-        'name': 'КрасДонСтрой',
-        'address': 'Селезнёва 2',
-        'phone': '+79993338844'
-    }
+# Параметры подключения
+conn_params = {
+    'host': host,
+    'database': db_name,
+    'user': user,
+    'password': password,
+}
 
-    supplier1 = Supplier(supplier_dict)
-    repo.add(supplier1)
-
-    # Получаем все
-    all_suppliers = repo.get_all()
-    for supplier in all_suppliers:
-        print(supplier)
-    
-    # Получаем по ID
-    found = repo.get_by_id(1)
-    print(found)
-
-    # Сортировка
-    repo.sort_by_field('name')
-
-    # Количество
-    count = repo.get_count()
-    print(count)
-    
-    
-    supplier2 = Supplier(supplier_id=0, name="КрасСтрой", phone="+71234578777", address="ГородКраснодар")
-    repo.replace_by_id(1, supplier2)    
+# repo = Supplier_rep_DB(conn_params)
 
 
-    all_suppliers = repo.get_all()
-    for supplier in all_suppliers:
-        print(supplier)
+# names = [
+#     "АвтоДеталь-Центр", "Запчасти-Плюс", "АвтоМаркет", "АвтоПрофи", "Мотор-Комплект",
+#     "ДетальАвто", "АвтоСклад", "АвтоМир", "Запчасти Онлайн", "АвтоДок",
+#     "Кузовной-Ремонт", "АвтоЗвезд", "Магистраль", "АвтоСнаб", "АвтоМастер",
+#     "Деталь-Сервис", "АвтоЛидер", "Запчасть-М", "АвтоСтиль", "АвтоПартнер",
+#     "АвтоСфера", "Запчасти-Маркет", "АвтоИмпорт", "Моторист", "АвтоДеталь-Сервис",
+#     "Запчасти-Про", "АвтоТехСнаб", "АвтоДоктор", "АвтоМодуль", "Запчасти-Точка",
+#     "АвтоДеталь-Плюс", "Запчасти-Клуб", "АвтоСклад-Плюс", "АвтоДеталь-Маркет", "АвтоПроф"
+# ]
+
+# addresses = [
+#     "г. Ростов-на-Дону, ул. Автозаводская, д. 10",
+#     "г. Краснодар, ул. Ставропольская, д. 5",
+#     "г. Сочи, ул. Деповская, д. 12",
+#     "г. Волгоград, пр. Ленина, д. 45",
+#     "г. Астрахань, ул. Кирова, д. 7",
+#     "г. Новороссийск, ул. Кубанская, д. 22",
+#     "г. Ставрополь, ул. Октябрьская, д. 15",
+#     "г. Краснодар, ул. Красных Партизан, д. 30",
+#     "г. Ростов-на-Дону, ул. Ворошилова, д. 8",
+#     "г. Сочи, ул. Курортный проспект, д. 50",
+#     "г. Волгоград, ул. Гагарина, д. 18",
+#     "г. Астрахань, ул. Ульянова, д. 25",
+#     "г. Новороссийск, ул. Дзержинского, д. 9",
+#     "г. Ставрополь, ул. Ленина, д. 40",
+#     "г. Краснодар, ул. Кубанская набережная, д. 11",
+#     "г. Ростов-на-Дону, ул. Максима Горького, д. 33",
+#     "г. Сочи, ул. Ленинградская, д. 7",
+#     "г. Волгоград, ул. Космонавтов, д. 14",
+#     "г. Астрахань, ул. Победы, д. 21",
+#     "г. Новороссийск, ул. Набережная, д. 35"
+# ]
+
+# # Генерация 35 поставщиков
+# for i in range(35):
+#     name = names[i]
+#     phone = f"+7 ({900 + i}) 123-45-{i:02d}"  # Уникальный телефон
+#     address = random.choice(addresses)
+#     supplier = Supplier(name=name, phone=phone, address=address)
+#     repo.add(supplier)
+#     print(f"Добавлен с ID: {supplier.supplier_id}")
 
 
 
-if __name__ == "__main__":
-    main()
+
+# repo.conn.close()
