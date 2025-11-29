@@ -6,13 +6,13 @@ from config import host, user, password, db_name
 import random
 
 
-# Параметры подключения
-conn_params = {
-    'host': host,
-    'database': db_name,
-    'user': user,
-    'password': password,
-}
+# # Параметры подключения
+# conn_params = {
+#     'host': host,
+#     'database': db_name,
+#     'user': user,
+#     'password': password,
+# }
 
 # repo = Supplier_rep_DB(conn_params)
 
@@ -63,3 +63,18 @@ conn_params = {
 
 
 # repo.conn.close()
+
+repo = Supplier_rep_DB()
+repo2 = Supplier_rep_DB()
+
+s = Supplier(name='Тандер', phone='+79381122138')
+repo.add(s)
+
+print(repo.db is repo2.db) # true
+
+repo.close()
+
+s2 = Supplier(name='X5', phone='+79391122139')
+repo2.add(s2) #repo2 не сработает потому что мы закрыли соединение
+
+repo2.close()
