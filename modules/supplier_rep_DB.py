@@ -2,12 +2,25 @@ import psycopg2
 from modules.supplier import Supplier
 from modules.supplier_mini import SupplierMini
 from modules.supplierDBconnection import SupplierDBConnection
+from modules.supplier_rep_base import supplier_rep_base
 
 
-class Supplier_rep_DB:
+class Supplier_rep_DB(supplier_rep_base):
+    '''
+    ADAPTER
+    '''
+    
     def __init__(self):
+        super().__init__('')
         self.db = SupplierDBConnection()
-            
+    
+    
+    def load(self, file):  # абстрактный метод
+        raise NotImplementedError("load() не поддерживается для БД")
+
+    def save(self, file):  # абстрактный метод
+        raise NotImplementedError("save() не поддерживается для БД")
+          
 
     # a. Получить объект по ID
     def get_by_id(self, supplier_id: int) -> Supplier | None:
@@ -76,6 +89,20 @@ class Supplier_rep_DB:
         query = "SELECT COUNT(*) FROM suppliers;"
         result = self.db._execute_query(query)
         return result[0][0]
+    
+    
+    def get_all(self) -> list[Supplier]:
+        query = 'SELECT * FROM suppliers;'
+        result = self.db._execute_query(query)
+        list_of_Suppliers = []
+        for item in result:
+            s = Supplier(supplier_id = item[0],
+                         name = item[1],
+                         phone = item[2],
+                         address = item[3])
+            list_of_Suppliers.append(s)
+        return list_of_Suppliers
+        
     
     
     def close(self):

@@ -26,6 +26,7 @@ class SupplierDBConnection:
             
     def __del__(self):
         SupplierDBConnection._instance = None
+        SupplierDBConnection._initialized = False
 
     def _execute_query(self, query: str, params: tuple = ()) -> list[tuple]:
         with self.conn.cursor() as cur:
