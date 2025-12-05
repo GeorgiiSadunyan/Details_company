@@ -1,7 +1,6 @@
-import psycopg2
 from modules.supplier import Supplier
 from modules.supplier_mini import SupplierMini
-from modules.supplierDBconnection import SupplierDBConnection
+from modules.DBconnection import SupplierDBConnection
 from modules.supplier_rep_base import supplier_rep_base
 
 

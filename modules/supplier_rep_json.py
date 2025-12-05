@@ -1,4 +1,5 @@
 from modules.supplier_rep_base import supplier_rep_base
+from typing import Any
 import json
 
 
@@ -6,7 +7,7 @@ class Supplier_rep_json(supplier_rep_base):
     
     '''Класс для работы с JSON'''
     
-    def load(self, file):
+    def load(self, file) -> list[dict[str, Any]]:
         content = file.read()
         if content.strip():
             return json.loads(content)
