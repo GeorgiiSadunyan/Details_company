@@ -1,12 +1,13 @@
-import tempfile
 import os
+import tempfile
+
 from modules.supplier import Supplier
 from modules.supplier_rep_json import Supplier_rep_json
-from modules.supplier_rep_yaml import Supplier_rep_yaml  
+from modules.supplier_rep_yaml import Supplier_rep_yaml
 
 
 def test_json_repo_create_empty_file():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
         file_path = f.name
 
     repo = Supplier_rep_json(file_path)
@@ -16,7 +17,7 @@ def test_json_repo_create_empty_file():
 
 
 def test_json_repo_add_and_get_all():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
         file_path = f.name
 
     repo = Supplier_rep_json(file_path)
@@ -36,7 +37,7 @@ def test_json_repo_add_and_get_all():
 
 
 def test_json_repo_get_by_id():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
         file_path = f.name
 
     repo = Supplier_rep_json(file_path)
@@ -56,7 +57,7 @@ def test_json_repo_get_by_id():
 
 
 def test_json_repo_replace_by_id():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
         file_path = f.name
 
     repo = Supplier_rep_json(file_path)
@@ -77,7 +78,7 @@ def test_json_repo_replace_by_id():
 
 
 def test_json_repo_remove_by_id():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
         file_path = f.name
 
     repo = Supplier_rep_json(file_path)
@@ -93,7 +94,7 @@ def test_json_repo_remove_by_id():
 
 
 def test_json_repo_sort_by_field():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
         file_path = f.name
 
     repo = Supplier_rep_json(file_path)
@@ -103,7 +104,7 @@ def test_json_repo_sort_by_field():
     repo.add(s1)
     repo.add(s2)
 
-    repo.sort_by_field('name')
+    repo.sort_by_field("name")
     all_suppliers = repo.get_all()
     assert all_suppliers[0].name == "А"
     assert all_suppliers[1].name == "Б"
@@ -112,7 +113,7 @@ def test_json_repo_sort_by_field():
 
 
 def test_json_repo_k_n_list():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
         file_path = f.name
 
     repo = Supplier_rep_json(file_path)
@@ -132,8 +133,9 @@ def test_json_repo_k_n_list():
 
 # === YAML ===
 
+
 def test_yaml_repo_create_empty_file():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.yaml') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".yaml") as f:
         file_path = f.name
 
     repo = Supplier_rep_yaml(file_path)
@@ -143,7 +145,7 @@ def test_yaml_repo_create_empty_file():
 
 
 def test_yaml_repo_add_and_get_all():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.yaml') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".yaml") as f:
         file_path = f.name
 
     repo = Supplier_rep_yaml(file_path)
@@ -163,7 +165,7 @@ def test_yaml_repo_add_and_get_all():
 
 
 def test_yaml_repo_get_by_id():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.yaml') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".yaml") as f:
         file_path = f.name
 
     repo = Supplier_rep_yaml(file_path)
@@ -183,7 +185,7 @@ def test_yaml_repo_get_by_id():
 
 
 def test_yaml_repo_replace_by_id():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.yaml') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".yaml") as f:
         file_path = f.name
 
     repo = Supplier_rep_yaml(file_path)
@@ -204,7 +206,7 @@ def test_yaml_repo_replace_by_id():
 
 
 def test_yaml_repo_remove_by_id():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.yaml') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".yaml") as f:
         file_path = f.name
 
     repo = Supplier_rep_yaml(file_path)
@@ -220,7 +222,7 @@ def test_yaml_repo_remove_by_id():
 
 
 def test_yaml_repo_sort_by_field():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.yaml') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".yaml") as f:
         file_path = f.name
 
     repo = Supplier_rep_yaml(file_path)
@@ -230,7 +232,7 @@ def test_yaml_repo_sort_by_field():
     repo.add(s1)
     repo.add(s2)
 
-    repo.sort_by_field('name')
+    repo.sort_by_field("name")
     all_suppliers = repo.get_all()
     assert all_suppliers[0].name == "YAML А"
     assert all_suppliers[1].name == "YAML Б"
@@ -239,7 +241,7 @@ def test_yaml_repo_sort_by_field():
 
 
 def test_yaml_repo_k_n_list():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.yaml') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".yaml") as f:
         file_path = f.name
 
     repo = Supplier_rep_yaml(file_path)
@@ -259,8 +261,9 @@ def test_yaml_repo_k_n_list():
 
 # === Тесты на ошибки ===
 
+
 def test_json_repo_invalid_id_error():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
         file_path = f.name
 
     repo = Supplier_rep_json(file_path)
@@ -287,7 +290,7 @@ def test_json_repo_invalid_id_error():
 
 
 def test_yaml_repo_invalid_id_error():
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.yaml') as f:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".yaml") as f:
         file_path = f.name
 
     repo = Supplier_rep_yaml(file_path)

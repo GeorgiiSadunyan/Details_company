@@ -1,25 +1,23 @@
+from modules.DBconnection import SupplierDBConnection
 from modules.supplier import Supplier
 from modules.supplier_mini import SupplierMini
-from modules.DBconnection import SupplierDBConnection
 from modules.supplier_rep_base import supplier_rep_base
 
 
 class Supplier_rep_DB(supplier_rep_base):
-    '''
+    """
     ADAPTER
-    '''
-    
+    """
+
     def __init__(self):
-        super().__init__('')
+        super().__init__("")
         self.db = SupplierDBConnection()
-    
-    
+
     def load(self, file):  # абстрактный метод
         raise NotImplementedError("load() не поддерживается для БД")
 
     def save(self, file):  # абстрактный метод
         raise NotImplementedError("save() не поддерживается для БД")
-          
 
     # a. Получить объект по ID
     def get_by_id(self, supplier_id: int) -> Supplier | None:
@@ -28,13 +26,9 @@ class Supplier_rep_DB(supplier_rep_base):
         if result:
             row = result[0]
             return Supplier(
-                name=row[1],
-                phone=row[2],
-                address=row[3],
-                supplier_id=row[0]
+                name=row[1], phone=row[2], address=row[3], supplier_id=row[0]
             )
         return None
-    
 
     # b. Получить список k по счету n объектов класса short
     def get_k_n_short_list(self, k: int, n: int) -> list[SupplierMini]:
@@ -46,16 +40,17 @@ class Supplier_rep_DB(supplier_rep_base):
         """
         result = self.db._execute_query(query, (n, offset))
         return [SupplierMini(supplier_id=row[0], name=row[1]) for row in result]
-    
 
     # c. Добавить объект в список (с новым ID)
-    def add(self, supplier: Supplier): 
+    def add(self, supplier: Supplier):
         # Проверка уникальности
         query = "SELECT supplier_id FROM suppliers WHERE name = %s OR phone = %s;"
         result = self.db._execute_query(query, (supplier.name, supplier.phone))
         if result:
-            raise ValueError(f"Поставщик с именем '{supplier.name}' и/или телефоном '{supplier.phone}' уже существует.")
-        
+            raise ValueError(
+                f"Поставщик с именем '{supplier.name}' и/или телефоном '{supplier.phone}' уже существует."
+            )
+
         query = """
             INSERT INTO suppliers (name, phone, address)
             VALUES (%s, %s, %s)
@@ -66,7 +61,6 @@ class Supplier_rep_DB(supplier_rep_base):
             new_id = cur.fetchone()[0]
             supplier.supplier_id = new_id
 
-
     # d. Заменить элемент списка по ID
     def replace_by_id(self, supplier_id: int, supplier: Supplier):
         query = """
@@ -74,35 +68,31 @@ class Supplier_rep_DB(supplier_rep_base):
         SET name = %s, phone = %s, address = %s
         WHERE supplier_id = %s;
         """
-        self.db._execute_update(query, (supplier.name, supplier.phone, supplier.address, supplier_id))
-
+        self.db._execute_update(
+            query, (supplier.name, supplier.phone, supplier.address, supplier_id)
+        )
 
     # e. Удалить элемент списка по ID
     def remove_by_id(self, supplier_id: int):
         query = "DELETE FROM suppliers WHERE supplier_id = %s;"
         self.db._execute_update(query, (supplier_id,))
 
-
     # f. Получить количество элементов
     def get_count(self) -> int:
         query = "SELECT COUNT(*) FROM suppliers;"
         result = self.db._execute_query(query)
         return result[0][0]
-    
-    
+
     def get_all(self) -> list[Supplier]:
-        query = 'SELECT * FROM suppliers;'
+        query = "SELECT * FROM suppliers;"
         result = self.db._execute_query(query)
         list_of_Suppliers = []
         for item in result:
-            s = Supplier(supplier_id = item[0],
-                         name = item[1],
-                         phone = item[2],
-                         address = item[3])
+            s = Supplier(
+                supplier_id=item[0], name=item[1], phone=item[2], address=item[3]
+            )
             list_of_Suppliers.append(s)
         return list_of_Suppliers
-        
-    
-    
+
     def close(self):
         return self.db._close()

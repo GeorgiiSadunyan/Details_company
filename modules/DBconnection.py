@@ -1,12 +1,11 @@
 import psycopg2
 
-
 params = {
-    'host': 'localhost',
-    'database': 'Details_company',
-    'user': 'postgres',
-    'password': '2121',
-    'port': 5432
+    "host": "localhost",
+    "database": "Details_company",
+    "user": "postgres",
+    "password": "2121",
+    "port": 5432,
 }
 
 
@@ -25,8 +24,7 @@ class SupplierDBConnection:
             self.conn = psycopg2.connect(**self.conn_params)
             self.conn.autocommit = True
             self._initialized = True
-            print('[INFO] Start connection')
-            
+            print("[INFO] Start connection")
 
     def _execute_query(self, query: str, params: tuple = ()) -> list[tuple]:
         with self.conn.cursor() as cur:
@@ -40,6 +38,6 @@ class SupplierDBConnection:
     def _close(self):
         if self.conn and not self.conn.closed:
             self.conn.close()
-            print('[INFO] Connection is closed')
+            print("[INFO] Connection is closed")
         elif self.conn:
-            print('[INFO] Connection was already closed')
+            print("[INFO] Connection was already closed")

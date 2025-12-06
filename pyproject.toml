@@ -1,0 +1,14 @@
+[tool.ruff]
+# Ограничение длины строки
+line-length = 88
+
+# Версия Python
+target-version = "py313"
+
+[tool.ruff.lint]
+# Список правил:
+# E, W - стандарты pycodestyle (ошибки и предупреждения)
+# F - Pyflakes (поиск логических ошибок)
+# I - isort (сортировка импортов)
+# UP - pyupgrade (обновление синтаксиса под свежий Python)
+select = ["E", "W", "F", "I", "UP"]
