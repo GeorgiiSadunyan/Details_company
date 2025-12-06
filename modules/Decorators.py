@@ -2,7 +2,7 @@ from modules.supplier_mini import SupplierMini
 from modules.supplier_rep_DB import Supplier_rep_DB
 
 
-class SupplierDB_FilterSort_Decorator:
+class SupplierDB_Decorator:
     def __init__(self, repo):
         self.repo: Supplier_rep_DB = repo
 
@@ -72,3 +72,54 @@ class SupplierDB_FilterSort_Decorator:
     
     def close(self):
         self.repo.close()
+        
+
+
+class SupplierFiles_Decorator:
+    def __init__(self, file_repo):
+        """
+        file_repo — это экземпляр Supplier_rep_json или Supplier_rep_yaml
+        """
+        self.file_repo = file_repo
+
+    def get_k_n_short_list(
+        self,
+        k: int,
+        n: int,
+        filter_field: str | None = None,
+        filter_value: str | None = None,
+        sort_field: str = 'supplier_id'
+            ) -> list[SupplierMini]:
+        
+        all_items = self.file_repo.get_all()
+
+        if filter_field and filter_value:
+            filtered = [item for item in all_items if getattr(item, filter_field, '') == filter_value]
+        else:
+            filtered = all_items
+
+        sorted_items = sorted(filtered, key=lambda x: getattr(x, sort_field, ''))
+
+        # Выбираю k-ю страницу
+        start = (k - 1) * n
+        end = start + n
+        items = sorted_items[start:end]
+
+        return [SupplierMini(item.supplier_id, item.name) for item in items]
+
+
+    def get_count(
+        self,
+        filter_field: str | None = None,
+        filter_value: str | None = None
+    ) -> int:
+        
+        all_items = self.file_repo.get_all()
+
+        
+        if filter_field and filter_value:
+            filtered = [item for item in all_items if getattr(item, filter_field, '') == filter_value]
+        else:
+            filtered = all_items
+
+        return len(filtered)
