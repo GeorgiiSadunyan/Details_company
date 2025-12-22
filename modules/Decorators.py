@@ -32,8 +32,8 @@ class SupplierDB_Decorator:
                 raise ValueError(
                     f"Поле {filter_field} не поддерживается для фильтрации"
                 )
-            query += f" WHERE {filter_field} = %s"
-            params.append(filter_value)
+            query += f" WHERE {filter_field} ILIKE %s"
+            params.append(f"%{filter_value}%")
 
         # Сорттировка
         if sort_field not in ["supplier_id", "name", "phone", "address"]:

@@ -21,7 +21,10 @@ class Supplier_rep_DB(supplier_rep_base):
 
     # a. Получить объект по ID
     def get_by_id(self, supplier_id: int) -> Supplier | None:
-        query = "SELECT supplier_id, name, phone, address FROM suppliers WHERE supplier_id = %s;"
+        query = (
+            "SELECT supplier_id, name, phone, address "
+            "FROM suppliers WHERE supplier_id = %s;"
+        )
         result = self.db._execute_query(query, (supplier_id,))
         if result:
             row = result[0]
@@ -48,7 +51,8 @@ class Supplier_rep_DB(supplier_rep_base):
         result = self.db._execute_query(query, (supplier.name, supplier.phone))
         if result:
             raise ValueError(
-                f"Поставщик с именем '{supplier.name}' и/или телефоном '{supplier.phone}' уже существует."
+                f"Поставщик с именем '{supplier.name}' и/или "
+                f"телефоном '{supplier.phone}' уже существует."
             )
 
         query = """

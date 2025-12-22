@@ -3,6 +3,16 @@ from modules.supplier_rep_DB import Supplier_rep_DB
 from modules.supplier_rep_yaml import Supplier_rep_yaml
 
 repo = Supplier_rep_DB()
+# repo2 = Supplier_rep_DB()
+
+# print(repo.db is repo2.db)
+
+
+# tander = repo.get_by_id(38)
+# if tander:
+#     tander.name = 'Магнит1'
+#     repo.replace_by_id(tander.supplier_id, tander)
+
 decorated_repo = SupplierDB_Decorator(repo)
 
 # Пример: получить 1-ю "страницу" по 5 элементов,
@@ -10,8 +20,8 @@ decorated_repo = SupplierDB_Decorator(repo)
 short_list = decorated_repo.get_k_n_short_list(
     k=1,
     n=5,
-    filter_field="address",
-    filter_value="г. Новороссийск, ул. Кубанская, д. 22",
+    filter_field="name",
+    filter_value="м",
     sort_field="supplier_id",
 )
 
@@ -20,10 +30,10 @@ for item in short_list:
     print(item)
 
 
-count = decorated_repo.get_count(
-    filter_field="address", filter_value="г. Новороссийск, ул. Кубанская, д. 22"
-)
-print(f"\nКоличество поставщиков с этим адресом: {count}")
+# count = decorated_repo.get_count(
+#     filter_field="address", filter_value="г. Новороссийск, ул. Кубанская, д. 22"
+# )
+# print(f"\nКоличество поставщиков с этим адресом: {count}")
 
 repo.close()
 
@@ -49,3 +59,4 @@ print(count)
 
 for item in short_list2:
     print(item)
+

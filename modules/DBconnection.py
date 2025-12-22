@@ -10,6 +10,10 @@ params = {
 
 
 class SupplierDBConnection:
+    """
+    Singleton
+    """
+
     _instance = None
     _initialized = False
 
