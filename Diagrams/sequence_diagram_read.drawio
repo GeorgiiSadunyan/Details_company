@@ -1,0 +1,223 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
+  <diagram name="Sequence Diagram - Read Operation" id="sequence-diagram">
+    <mxGraphModel dx="2135" dy="1203" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Диаграмма последовательности: Получение списка поставщиков (Read)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="400" y="10" width="1000" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="user-lifeline" value="" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;size=40;" parent="1" vertex="1">
+          <mxGeometry x="150" y="100" width="20" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="user-label" value="Пользователь" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="100" y="70" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="view-lifeline" value="" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="280" y="100" width="140" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="msg18" value="18: displaySuppliers(suppliers)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;dashed=1;" parent="view-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="70" y="840" as="sourcePoint" />
+            <mxPoint x="70" y="860" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="100" y="840" />
+              <mxPoint x="100" y="860" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="view-label" value="View&#xa;(HTML/JS)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="300" y="60" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="server-lifeline" value="" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="520" y="100" width="160" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="msg17" value="17: send_json_response(data)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="server-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="79.5" y="810" as="sourcePoint" />
+            <mxPoint x="-170.67647058823513" y="810" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-90" y="810" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="server-label" value="HTTP Server&#xa;(RequestHandler)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="540" y="50" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="controller-lifeline" value="" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="780" y="100" width="160" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="msg13" value="13: get_count()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="controller-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="80" y="660" as="sourcePoint" />
+            <mxPoint x="349.79999999999995" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg14" value="14: int (count)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="controller-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="349.5" y="700" as="sourcePoint" />
+            <mxPoint x="79.70000000000005" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg15" value="15: Формирует JSON ответ" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;dashed=1;" parent="controller-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="80" y="730" as="sourcePoint" />
+            <mxPoint x="80" y="750" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="120" y="730" />
+              <mxPoint x="120" y="750" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg16" value="16: dict (result)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="controller-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="79.5" y="780.0000000000002" as="sourcePoint" />
+            <mxPoint x="-180.67647058823513" y="780.0000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="controller-label" value="Controller&#xa;(SupplierController)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="800" y="50" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="repo-lifeline" value="" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="1040" y="100" width="180" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="msg9" value="9: list[SupplierMini]" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="repo-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="589.4999999999995" y="470.0000000000002" as="sourcePoint" />
+            <mxPoint x="89.32352941176487" y="470.0000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg12" value="12: list[SupplierMini]" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="repo-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="89.5" y="620" as="sourcePoint" />
+            <mxPoint x="-180.29999999999995" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="repo-label" value="Repository&#xa;(SupplierRepObservable)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="1060" y="50" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="observer-lifeline" value="" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="1320" y="100" width="140" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="observer-label" value="Observer&#xa;(ViewObserver)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="1340" y="60" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="base-repo-lifeline" value="" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="1560" y="100" width="140" height="900" as="geometry" />
+        </mxCell>
+        <mxCell id="msg8" value="8: Загружает данные из файла/БД" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;dashed=1;" parent="base-repo-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="70" y="360" as="sourcePoint" />
+            <mxPoint x="70" y="380" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="110" y="360" />
+              <mxPoint x="110" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="base-repo-label" value="BaseRepository&#xa;(JSON/YAML/DB)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="1575" y="60" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="msg1" value="1: Открывает страницу" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" source="user-lifeline" target="view-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="140" y="180" as="sourcePoint" />
+            <mxPoint x="220" y="180" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="250" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg2" value="2: loadSuppliers(page)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;dashed=1;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="350" y="220" as="sourcePoint" />
+            <mxPoint x="350" y="240" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="380" y="220" />
+              <mxPoint x="380" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg3" value="3: GET /api/suppliers?page=1&amp;page_size=10" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="349.32352941176487" y="300" as="sourcePoint" />
+            <mxPoint x="599.5" y="300" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="440" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg4" value="4: get_suppliers_list(query_params)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" source="server-lifeline" target="controller-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="600" y="320" as="sourcePoint" />
+            <mxPoint x="860" y="320" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="650" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg5" value="5: get_suppliers_page(page, page_size)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;dashed=1;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="860" y="360" as="sourcePoint" />
+            <mxPoint x="860" y="380" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="900" y="360" />
+              <mxPoint x="900" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg6" value="6: get_k_n_short_list(page, page_size)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="859.3235294117649" y="419.9999999999998" as="sourcePoint" />
+            <mxPoint x="1129.4999999999995" y="419.9999999999998" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="940" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg7" value="7: get_k_n_short_list(k, n)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" source="repo-lifeline" target="base-repo-lifeline" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="1130" y="460" as="sourcePoint" />
+            <mxPoint x="1630" y="460" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1180" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note1" value="ПАТТЕРН НАБЛЮДАТЕЛЬ:&#xa;Subject уведомляет всех&#xa;подписанных Observer&#39;ов" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;align=left;verticalAlign=top;size=15;" parent="1" vertex="1">
+          <mxGeometry x="1160" y="630" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="msg11" value="11: update(event_type, data)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;dashed=1;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="1390" y="640" as="sourcePoint" />
+            <mxPoint x="1390" y="660" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1420" y="640" />
+              <mxPoint x="1420" y="660" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg19" value="19: Видит таблицу с данными" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="350.18000000000023" y="980.0000000000002" as="sourcePoint" />
+            <mxPoint x="160.00352941176465" y="980.0000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend" value="Легенда:&lt;br&gt;──────────────&lt;br&gt;→ Синхронный вызов&lt;br&gt;⇢ Возврат данных&lt;br&gt;⇢ Асинхронный вызов" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;align=left;verticalAlign=top;size=15;fontColor=#333333;" parent="1" vertex="1">
+          <mxGeometry x="80" y="1050" width="160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="note2" value="MVC ПАТТЕРН:&#xa;1. View - только отображение&#xa;2. Controller - вся логика&#xa;3. Model - данные через Repository" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=top;size=15;" parent="1" vertex="1">
+          <mxGeometry x="280" y="1050" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="msg10" value="10: notify(&#39;short_list_loaded&#39;, data)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="1129.3235294117649" y="619.9999999999998" as="sourcePoint" />
+            <mxPoint x="1389.4999999999995" y="619.9999999999998" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1260" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

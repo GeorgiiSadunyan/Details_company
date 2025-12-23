@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление поставщиками</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Система управления поставщиками</h1>
+            <p class="subtitle">Краткая информация о поставщиках</p>
+        </header>
+
+        <main>
+            <div class="controls">
+                <button id="refreshBtn" class="btn btn-primary">Обновить</button>
+                <button id="addBtn" class="btn btn-success">Добавить поставщика</button>
+            </div>
+
+            <div class="table-container">
+                <table id="suppliersTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Наименование</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="suppliersTableBody">
+                        <!-- Данные будут загружены через JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination" id="pagination">
+                <!-- Пагинация будет создана через JavaScript -->
+            </div>
+
+            <div class="info">
+                <span id="infoText">Загрузка...</span>
+            </div>
+        </main>
+    </div>
+
+    <!-- Модальное окно для полной информации -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Полная информация о поставщике</h2>
+            <div id="detailsContent">
+                <!-- Содержимое будет загружено через JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
+
+
