@@ -1,5 +1,5 @@
-from modules.supplier_mini import SupplierMini
-from modules.supplier_rep_DB import Supplier_rep_DB
+from modules.models.supplier_mini import SupplierMini
+from modules.repositories import Supplier_rep_DB
 
 
 class SupplierDB_Decorator:

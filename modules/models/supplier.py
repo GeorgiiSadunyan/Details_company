@@ -1,7 +1,7 @@
 import re
 
-from modules.supplier_base import SupplierBase
-from modules.supplier_mini import SupplierMini
+from modules.models.supplier_base import SupplierBase
+from modules.models.supplier_mini import SupplierMini
 
 
 class Supplier(SupplierBase):

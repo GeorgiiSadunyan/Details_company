@@ -1,7 +1,7 @@
 from modules.DBconnection import SupplierDBConnection
-from modules.supplier import Supplier
-from modules.supplier_mini import SupplierMini
-from modules.supplier_rep_base import supplier_rep_base
+from modules.models.supplier import Supplier
+from modules.models.supplier_mini import SupplierMini
+from modules.repositories.supplier_rep_base import supplier_rep_base
 
 
 class Supplier_rep_DB(supplier_rep_base):

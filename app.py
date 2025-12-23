@@ -1,13 +1,11 @@
 from flask import Flask, jsonify, render_template, request
 
-# Импорты ваших модулей (оставляем без изменений)
 from controllers.add_supplier_controller import AddSupplierController
 from controllers.delete_supplier_controller import DeleteSupplierController
 from controllers.edit_supplier_controller import EditSupplierController
 from controllers.supplier_controller import SupplierController
 from modules.observer import Observer
-from modules.supplier_rep_DB import Supplier_rep_DB
-from modules.supplier_rep_observable import SupplierRepObservable
+from modules.repositories import Supplier_rep_DB, SupplierRepObservable
 
 
 class ViewObserver(Observer):

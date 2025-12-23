@@ -2,7 +2,7 @@ from typing import Any
 
 import yaml
 
-from modules.supplier_rep_base import supplier_rep_base
+from modules.repositories.supplier_rep_base import supplier_rep_base
 
 
 class Supplier_rep_yaml(supplier_rep_base):

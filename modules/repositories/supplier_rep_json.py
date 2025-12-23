@@ -1,7 +1,7 @@
 import json
 from typing import Any
 
-from modules.supplier_rep_base import supplier_rep_base
+from modules.repositories.supplier_rep_base import supplier_rep_base
 
 
 class Supplier_rep_json(supplier_rep_base):

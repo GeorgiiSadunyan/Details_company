@@ -3,10 +3,10 @@ Observable репозиторий поставщиков
 Уведомляет наблюдателей об изменениях в данных
 """
 
+from modules.models.supplier import Supplier
+from modules.models.supplier_mini import SupplierMini
 from modules.observer import Subject
-from modules.supplier import Supplier
-from modules.supplier_mini import SupplierMini
-from modules.supplier_rep_base import supplier_rep_base
+from modules.repositories.supplier_rep_base import supplier_rep_base
 
 
 class SupplierRepObservable(Subject):

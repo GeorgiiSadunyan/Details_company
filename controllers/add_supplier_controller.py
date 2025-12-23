@@ -3,8 +3,8 @@
 Отдельный контроллер согласно паттерну MVC для нового окна
 """
 
-from modules.supplier import Supplier
-from modules.supplier_rep_observable import SupplierRepObservable
+from modules.models.supplier import Supplier
+from modules.repositories import SupplierRepObservable
 
 
 class AddSupplierController:

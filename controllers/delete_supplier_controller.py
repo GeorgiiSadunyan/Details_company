@@ -3,7 +3,7 @@
 Паттерн MVC - Controller
 """
 
-from modules.supplier_rep_observable import SupplierRepObservable
+from modules.repositories import SupplierRepObservable
 
 
 class DeleteSupplierController:

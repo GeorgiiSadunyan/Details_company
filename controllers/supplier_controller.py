@@ -3,8 +3,8 @@
 Вся бизнес-логика вынесена сюда - НЕТ логики в классах View
 """
 
-from modules.supplier import Supplier
-from modules.supplier_rep_observable import SupplierRepObservable
+from modules.models.supplier import Supplier
+from modules.repositories import SupplierRepObservable
 
 
 class SupplierController:
@@ -41,7 +41,7 @@ class SupplierController:
         try:
             # Используем Decorator Pattern для фильтрации и сортировки
             from modules.Decorators import SupplierDB_Decorator
-            from modules.supplier_rep_DB import Supplier_rep_DB
+            from modules.repositories import Supplier_rep_DB
 
             # Получаем базовый репозиторий из Observable
             base_repo = self.repository.repository

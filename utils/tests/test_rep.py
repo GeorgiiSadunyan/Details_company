@@ -1,9 +1,8 @@
 import os
 import tempfile
 
-from modules.supplier import Supplier
-from modules.supplier_rep_json import Supplier_rep_json
-from modules.supplier_rep_yaml import Supplier_rep_yaml
+from modules.models.supplier import Supplier
+from modules.repositories import Supplier_rep_json, Supplier_rep_yaml
 
 
 def test_json_repo_create_empty_file():

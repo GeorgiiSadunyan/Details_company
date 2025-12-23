@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
-from modules.supplier import Supplier
-from modules.supplier_mini import SupplierMini
+from modules.models.supplier import Supplier
+from modules.models.supplier_mini import SupplierMini
 
 
 class supplier_rep_base(ABC):

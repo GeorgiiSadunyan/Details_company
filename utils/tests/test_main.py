@@ -1,7 +1,7 @@
 import pytest
 
-from modules.supplier import Supplier
-from modules.supplier_mini import SupplierMini
+from modules.models.supplier import Supplier
+from modules.models.supplier_mini import SupplierMini
 
 # ============ Тесты для Supplier ============
 
