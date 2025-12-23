@@ -10,6 +10,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs, urlparse
 
+from controllers.add_supplier_controller import AddSupplierController
 from controllers.supplier_controller import SupplierController
 from modules.observer import Observer
 from modules.supplier_rep_DB import Supplier_rep_DB
@@ -40,8 +41,9 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
     Маршрутизация запросов к соответствующим методам контроллера
     """
 
-    # Статическая переменная для контроллера
+    # Статические переменные для контроллеров
     controller: SupplierController = None  # type: ignore
+    add_controller: AddSupplierController = None  # type: ignore
     view_observer: ViewObserver = None  # type: ignore
 
     def do_GET(self):
@@ -53,6 +55,8 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
         # Маршрутизация
         if path == "/":
             self.serve_html("views/index.html")
+        elif path == "/add_supplier":
+            self.serve_html("views/add_supplier.html")
         elif path.startswith("/static/"):
             self.serve_static(path)
         elif path == "/api/suppliers":
@@ -143,6 +147,38 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
         json_data = json.dumps(error_data, ensure_ascii=False)
         self.wfile.write(json_data.encode("utf-8"))
 
+    def do_POST(self):
+        """Обработка POST запросов"""
+        parsed_path = urlparse(self.path)
+        path = parsed_path.path
+
+        # Маршрутизация POST запросов
+        if path == "/api/suppliers/add":
+            self.add_supplier()
+        else:
+            self.send_error_response(404, "Endpoint не найден")
+
+    def add_supplier(self):
+        """Добавление нового поставщика через AddSupplierController"""
+        try:
+            # Читаем данные из тела запроса
+            content_length = int(self.headers.get("Content-Length", 0))
+            post_data = self.rfile.read(content_length)
+            data = json.loads(post_data.decode("utf-8"))
+
+            # Извлекаем параметры
+            name = data.get("name", "")
+            phone = data.get("phone", "")
+            address = data.get("address")
+
+            # Вызываем метод контроллера добавления
+            result = self.add_controller.validate_and_add_supplier(name, phone, address)
+            self.send_json_response(result)
+        except json.JSONDecodeError:
+            self.send_error_response(400, "Некорректный JSON")
+        except Exception as e:
+            self.send_error_response(500, f"Внутренняя ошибка сервера: {str(e)}")
+
     def log_message(self, format, *args):
         """Переопределение логирования для более читаемого вывода"""
         print(f"[{self.log_date_time_string()}] {format % args}")
@@ -170,16 +206,19 @@ def initialize_app():
     observable_repo.attach(view_observer)
     print("[OK] View Observer подписан на изменения данных")
 
-    # Создаем контроллер
+    # Создаем контроллеры
     controller = SupplierController(observable_repo)
-    print("[OK] Контроллер создан (паттерн MVC)")
+    print("[OK] Главный контроллер создан (паттерн MVC)")
+
+    add_controller = AddSupplierController(observable_repo)
+    print("[OK] Контроллер добавления создан (паттерн MVC для нового окна)")
 
     print("=" * 60)
     print("[OK] Приложение успешно инициализировано!")
     print("=" * 60)
     print()
 
-    return controller, view_observer
+    return controller, add_controller, view_observer
 
 
 def run_server(host="localhost", port=8000):
@@ -187,10 +226,11 @@ def run_server(host="localhost", port=8000):
     Запуск HTTP сервера
     """
     # Инициализация приложения
-    controller, view_observer = initialize_app()
+    controller, add_controller, view_observer = initialize_app()
 
-    # Устанавливаем контроллер для обработчика запросов
+    # Устанавливаем контроллеры для обработчика запросов
     SupplierRequestHandler.controller = controller
+    SupplierRequestHandler.add_controller = add_controller
     SupplierRequestHandler.view_observer = view_observer
 
     # Создаем и запускаем сервер

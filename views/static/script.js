@@ -21,10 +21,9 @@ function setupEventListeners() {
         loadSuppliers(currentPage);
     });
 
-    // Кнопка добавления
+    // Кнопка добавления - открывает новое окно
     document.getElementById('addBtn').addEventListener('click', function() {
-        // TODO: будет реализовано в следующих пунктах ЛР
-        alert('Функция добавления будет реализована в п.2 ЛР');
+        openAddSupplierWindow();
     });
 
     // Закрытие модального окна
@@ -198,6 +197,74 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+/**
+ * Открыть окно добавления поставщика
+ */
+function openAddSupplierWindow() {
+    // Открываем новое окно с формой добавления
+    const width = 700;
+    const height = 700;
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 2;
+    
+    const addWindow = window.open(
+        '/add_supplier',
+        'AddSupplier',
+        `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
+    );
+    
+    if (!addWindow) {
+        alert('Не удалось открыть окно. Проверьте, не блокирует ли браузер всплывающие окна.');
+    }
+}
+
+/**
+ * Обработка сообщений от дочернего окна (добавление поставщика)
+ */
+window.addEventListener('message', function(event) {
+    // Проверяем источник сообщения (в продакшене нужна более строгая проверка)
+    if (event.data && event.data.type === 'supplier_added') {
+        console.log('[Observer] Получено уведомление о добавлении поставщика:', event.data.supplier_id);
+        
+        // Обновляем текущую страницу после добавления
+        loadSuppliers(currentPage);
+        
+        // Показываем уведомление (опционально)
+        showNotification('Поставщик успешно добавлен!');
+    }
+});
+
+/**
+ * Показать уведомление пользователю
+ */
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification success-notification';
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #48bb78;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        animation: slideInRight 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Удаляем уведомление через 3 секунды
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
 }
 
 

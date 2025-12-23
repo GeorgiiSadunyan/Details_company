@@ -1,0 +1,164 @@
+/* Стили для формы добавления поставщика */
+
+.form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 14px;
+}
+
+label.required::after {
+    content: ' *';
+    color: #f56565;
+}
+
+input[type="text"],
+input[type="tel"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+input.error,
+textarea.error {
+    border-color: #f56565;
+}
+
+input.error:focus,
+textarea.error:focus {
+    box-shadow: 0 0 0 3px rgba(245, 101, 101, 0.1);
+}
+
+.error-text {
+    color: #f56565;
+    font-size: 13px;
+    margin-top: 5px;
+    min-height: 18px;
+    display: none;
+}
+
+.error-text.visible {
+    display: block;
+}
+
+.help-text {
+    color: #718096;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.form-buttons .btn {
+    flex: 1;
+}
+
+.btn-secondary {
+    background: #cbd5e0;
+    color: #2d3748;
+}
+
+.btn-secondary:hover {
+    background: #a0aec0;
+}
+
+#submitBtn:disabled {
+    background: #cbd5e0;
+    color: #a0aec0;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#formMessage {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+}
+
+#formMessage.success {
+    background-color: #c6f6d5;
+    color: #22543d;
+    border-left: 4px solid #48bb78;
+    display: block;
+}
+
+#formMessage.error {
+    background-color: #fed7d7;
+    color: #c53030;
+    border-left: 4px solid #f56565;
+    display: block;
+}
+
+/* Анимация отправки */
+.btn-success.loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn-success.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+    to { transform: rotate(360deg); }
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .form-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    .form-buttons {
+        flex-direction: column;
+    }
+}
+
