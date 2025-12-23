@@ -1,8 +1,3 @@
-"""
-Полная версия детали (запчасти).
-Содержит артикул, наименование и цену.
-"""
-
 from decimal import Decimal, InvalidOperation
 
 from modules.models.detail_base import DetailBase

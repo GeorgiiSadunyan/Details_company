@@ -1,8 +1,3 @@
-"""
-Краткая версия детали (запчасти).
-Содержит только артикул и наименование.
-"""
-
 from modules.models.detail_base import DetailBase
 
 
