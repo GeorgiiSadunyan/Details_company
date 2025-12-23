@@ -90,6 +90,9 @@ function displaySuppliers(suppliers) {
                 <button class="btn btn-info" onclick="event.stopPropagation(); showDetails(${supplier.supplier_id})">
                     Подробнее
                 </button>
+                <button class="btn btn-warning" onclick="event.stopPropagation(); openEditSupplierWindow(${supplier.supplier_id})">
+                    Редактировать
+                </button>
             </td>
         </tr>
     `).join('');
@@ -221,7 +224,28 @@ function openAddSupplierWindow() {
 }
 
 /**
- * Обработка сообщений от дочернего окна (добавление поставщика)
+ * Открыть окно редактирования поставщика
+ */
+function openEditSupplierWindow(supplierId) {
+    // Открываем новое окно с формой редактирования
+    const width = 700;
+    const height = 700;
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 2;
+    
+    const editWindow = window.open(
+        `/edit_supplier?id=${supplierId}`,
+        'EditSupplier',
+        `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
+    );
+    
+    if (!editWindow) {
+        alert('Не удалось открыть окно. Проверьте, не блокирует ли браузер всплывающие окна.');
+    }
+}
+
+/**
+ * Обработка сообщений от дочерних окон
  */
 window.addEventListener('message', function(event) {
     // Проверяем источник сообщения (в продакшене нужна более строгая проверка)
@@ -231,8 +255,16 @@ window.addEventListener('message', function(event) {
         // Обновляем текущую страницу после добавления
         loadSuppliers(currentPage);
         
-        // Показываем уведомление (опционально)
+        // Показываем уведомление
         showNotification('Поставщик успешно добавлен!');
+    } else if (event.data && event.data.type === 'supplier_updated') {
+        console.log('[Observer] Получено уведомление об обновлении поставщика:', event.data.supplier_id);
+        
+        // Обновляем текущую страницу после редактирования
+        loadSuppliers(currentPage);
+        
+        // Показываем уведомление
+        showNotification('Поставщик успешно обновлен!');
     }
 });
 

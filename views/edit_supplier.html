@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактировать поставщика</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/add_supplier_styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <header>
+            <h1>Редактирование поставщика</h1>
+            <p class="subtitle">Измените необходимые поля</p>
+        </header>
+
+        <div id="loadingMessage" class="loading">Загрузка данных...</div>
+
+        <form id="editSupplierForm" style="display: none;" novalidate>
+            <input type="hidden" id="supplierId" name="supplier_id">
+
+            <div class="form-group">
+                <label for="name" class="required">Наименование организации:</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Введите название организации"
+                    maxlength="100"
+                    required
+                >
+                <div class="error-text" id="nameError"></div>
+                <div class="help-text">От 1 до 100 символов, буквы, цифры, пробелы и дефисы</div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone" class="required">Телефон:</label>
+                <input 
+                    type="tel" 
+                    id="phone" 
+                    name="phone" 
+                    placeholder="+7 (999) 123-45-67"
+                    required
+                >
+                <div class="error-text" id="phoneError"></div>
+                <div class="help-text">Формат: +7 (999) 123-45-67 или 89991234567</div>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Адрес:</label>
+                <textarea 
+                    id="address" 
+                    name="address" 
+                    rows="3"
+                    placeholder="Введите адрес организации (необязательно)"
+                    maxlength="200"
+                ></textarea>
+                <div class="error-text" id="addressError"></div>
+                <div class="help-text">До 200 символов (необязательное поле)</div>
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-success" id="submitBtn">
+                    Сохранить изменения
+                </button>
+                <button type="button" class="btn btn-secondary" id="cancelBtn">
+                    Отмена
+                </button>
+            </div>
+
+            <div id="formMessage"></div>
+        </form>
+    </div>
+
+    <script src="/static/edit_supplier_script.js"></script>
+</body>
+</html>
+

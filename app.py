@@ -11,6 +11,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs, urlparse
 
 from controllers.add_supplier_controller import AddSupplierController
+from controllers.edit_supplier_controller import EditSupplierController
 from controllers.supplier_controller import SupplierController
 from modules.observer import Observer
 from modules.supplier_rep_DB import Supplier_rep_DB
@@ -44,6 +45,7 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
     # Статические переменные для контроллеров
     controller: SupplierController = None  # type: ignore
     add_controller: AddSupplierController = None  # type: ignore
+    edit_controller: EditSupplierController = None  # type: ignore
     view_observer: ViewObserver = None  # type: ignore
 
     def do_GET(self):
@@ -57,6 +59,8 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
             self.serve_html("views/index.html")
         elif path == "/add_supplier":
             self.serve_html("views/add_supplier.html")
+        elif path == "/edit_supplier":
+            self.serve_html("views/edit_supplier.html")
         elif path.startswith("/static/"):
             self.serve_static(path)
         elif path == "/api/suppliers":
@@ -158,6 +162,17 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
         else:
             self.send_error_response(404, "Endpoint не найден")
 
+    def do_PUT(self):
+        """Обработка PUT запросов"""
+        parsed_path = urlparse(self.path)
+        path = parsed_path.path
+
+        # Маршрутизация PUT запросов
+        if path == "/api/suppliers/edit":
+            self.edit_supplier()
+        else:
+            self.send_error_response(404, "Endpoint не найден")
+
     def add_supplier(self):
         """Добавление нового поставщика через AddSupplierController"""
         try:
@@ -173,6 +188,34 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
 
             # Вызываем метод контроллера добавления
             result = self.add_controller.validate_and_add_supplier(name, phone, address)
+            self.send_json_response(result)
+        except json.JSONDecodeError:
+            self.send_error_response(400, "Некорректный JSON")
+        except Exception as e:
+            self.send_error_response(500, f"Внутренняя ошибка сервера: {str(e)}")
+
+    def edit_supplier(self):
+        """Редактирование поставщика через EditSupplierController"""
+        try:
+            # Читаем данные из тела запроса
+            content_length = int(self.headers.get("Content-Length", 0))
+            put_data = self.rfile.read(content_length)
+            data = json.loads(put_data.decode("utf-8"))
+
+            # Извлекаем параметры
+            supplier_id = data.get("supplier_id")
+            name = data.get("name", "")
+            phone = data.get("phone", "")
+            address = data.get("address")
+
+            if not supplier_id:
+                self.send_error_response(400, "Не указан ID поставщика")
+                return
+
+            # Вызываем метод контроллера редактирования
+            result = self.edit_controller.validate_and_update_supplier(
+                supplier_id, name, phone, address
+            )
             self.send_json_response(result)
         except json.JSONDecodeError:
             self.send_error_response(400, "Некорректный JSON")
@@ -213,12 +256,15 @@ def initialize_app():
     add_controller = AddSupplierController(observable_repo)
     print("[OK] Контроллер добавления создан (паттерн MVC для нового окна)")
 
+    edit_controller = EditSupplierController(observable_repo)
+    print("[OK] Контроллер редактирования создан (паттерн MVC для нового окна)")
+
     print("=" * 60)
     print("[OK] Приложение успешно инициализировано!")
     print("=" * 60)
     print()
 
-    return controller, add_controller, view_observer
+    return controller, add_controller, edit_controller, view_observer
 
 
 def run_server(host="localhost", port=8000):
@@ -226,11 +272,12 @@ def run_server(host="localhost", port=8000):
     Запуск HTTP сервера
     """
     # Инициализация приложения
-    controller, add_controller, view_observer = initialize_app()
+    controller, add_controller, edit_controller, view_observer = initialize_app()
 
     # Устанавливаем контроллеры для обработчика запросов
     SupplierRequestHandler.controller = controller
     SupplierRequestHandler.add_controller = add_controller
+    SupplierRequestHandler.edit_controller = edit_controller
     SupplierRequestHandler.view_observer = view_observer
 
     # Создаем и запускаем сервер
