@@ -1,17 +1,24 @@
 /**
- * JavaScript для формы редактирования поставщика
- * Паттерн MVC - это View, контроллер на стороне сервера
+ * Универсальная форма для добавления и редактирования поставщика
+ * Паттерн MVC - View, контроллеры определяют режим работы
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('editSupplierForm');
+    const form = document.getElementById('supplierForm');
     const submitBtn = document.getElementById('submitBtn');
     const cancelBtn = document.getElementById('cancelBtn');
     const formMessage = document.getElementById('formMessage');
     const loadingMessage = document.getElementById('loadingMessage');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Элементы для динамического изменения
+    const pageTitle = document.getElementById('pageTitle');
+    const formTitle = document.getElementById('formTitle');
+    const formSubtitle = document.getElementById('formSubtitle');
 
     // Поля формы
     const supplierIdInput = document.getElementById('supplierId');
+    const formModeInput = document.getElementById('formMode');
     const nameInput = document.getElementById('name');
     const phoneInput = document.getElementById('phone');
     const addressInput = document.getElementById('address');
@@ -21,22 +28,57 @@ document.addEventListener('DOMContentLoaded', function() {
     const phoneError = document.getElementById('phoneError');
     const addressError = document.getElementById('addressError');
 
-    // Получаем ID поставщика из URL
+    // Получаем параметры из URL
     const urlParams = new URLSearchParams(window.location.search);
-    const supplierId = urlParams.get('id');
+    const mode = urlParams.get('mode'); // 'add' или 'edit'
+    const supplierId = urlParams.get('id'); // только для режима edit
 
-    if (!supplierId) {
-        showError('Не указан ID поставщика');
-        return;
-    }
-
-    // Загружаем данные поставщика
-    loadSupplierData(supplierId);
+    // Инициализация формы в зависимости от режима
+    initializeForm(mode, supplierId);
 
     /**
-     * Загрузка данных поставщика с сервера
+     * Инициализация формы
+     */
+    function initializeForm(mode, id) {
+        formModeInput.value = mode;
+
+        if (mode === 'add') {
+            // Режим добавления
+            pageTitle.textContent = 'Добавить поставщика';
+            formTitle.textContent = 'Добавление нового поставщика';
+            formSubtitle.textContent = 'Заполните все обязательные поля';
+            submitBtn.textContent = 'Добавить поставщика';
+            
+            // Форма пустая, сразу показываем
+            form.style.display = 'block';
+            
+        } else if (mode === 'edit') {
+            // Режим редактирования
+            if (!id) {
+                showError('Не указан ID поставщика для редактирования');
+                return;
+            }
+            
+            pageTitle.textContent = 'Редактировать поставщика';
+            formTitle.textContent = 'Редактирование поставщика';
+            formSubtitle.textContent = 'Измените необходимые поля';
+            submitBtn.textContent = 'Сохранить изменения';
+            
+            // Загружаем данные через контроллер
+            loadSupplierData(id);
+            
+        } else {
+            showError('Некорректный режим работы формы');
+        }
+    }
+
+    /**
+     * Загрузка данных поставщика (только для режима edit)
      */
     async function loadSupplierData(id) {
+        loadingMessage.style.display = 'block';
+        form.style.display = 'none';
+
         try {
             const response = await fetch(`/api/suppliers/${id}`);
             const result = await response.json();
@@ -49,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 phoneInput.value = supplier.phone;
                 addressInput.value = supplier.address || '';
 
-                // Показываем форму, скрываем загрузку
+                // Показываем форму
                 loadingMessage.style.display = 'none';
                 form.style.display = 'block';
             } else {
@@ -64,11 +106,13 @@ document.addEventListener('DOMContentLoaded', function() {
      * Показать ошибку загрузки
      */
     function showError(message) {
-        loadingMessage.innerHTML = `<div class="error-message">${message}</div>`;
+        loadingMessage.style.display = 'none';
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
     }
 
     /**
-     * Валидация на стороне клиента (предварительная)
+     * Валидация на стороне клиента
      */
     function validateForm() {
         let isValid = true;
@@ -97,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
             isValid = false;
         }
 
-        // Валидация адреса (опциональное)
+        // Валидация адреса
         const address = addressInput.value.trim();
         if (address && address.length > 200) {
             showFieldError(addressInput, addressError, 'Максимум 200 символов');
@@ -146,37 +190,52 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.disabled = true;
         submitBtn.classList.add('loading');
 
-        // Собираем данные формы
+        const mode = formModeInput.value;
         const formData = {
-            supplier_id: parseInt(supplierIdInput.value),
             name: nameInput.value.trim(),
             phone: phoneInput.value.trim(),
             address: addressInput.value.trim() || null
         };
 
         try {
-            // Отправляем данные на сервер
-            const response = await fetch('/api/suppliers/edit', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
+            let response, messageType;
+
+            if (mode === 'add') {
+                // Добавление через POST
+                response = await fetch('/api/suppliers/add', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(formData)
+                });
+                messageType = 'supplier_added';
+                
+            } else if (mode === 'edit') {
+                // Редактирование через PUT
+                formData.supplier_id = parseInt(supplierIdInput.value);
+                response = await fetch('/api/suppliers/edit', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(formData)
+                });
+                messageType = 'supplier_updated';
+            }
 
             const result = await response.json();
 
             if (result.success) {
-                // Успешное обновление
-                formMessage.textContent = result.message || 'Поставщик успешно обновлен!';
+                // Успех
+                const successMessage = mode === 'add' 
+                    ? 'Поставщик успешно добавлен!'
+                    : 'Поставщик успешно обновлен!';
+                
+                formMessage.textContent = result.message || successMessage;
                 formMessage.className = 'success';
 
-                // Уведомляем родительское окно об успешном обновлении
+                // Уведомляем родительское окно
                 if (window.opener && !window.opener.closed) {
-                    // Отправляем сообщение родительскому окну
                     window.opener.postMessage({
-                        type: 'supplier_updated',
-                        supplier_id: formData.supplier_id
+                        type: messageType,
+                        supplier_id: result.supplier_id || formData.supplier_id
                     }, '*');
                 }
 
@@ -184,12 +243,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     window.close();
                 }, 2000);
+                
             } else {
-                // Ошибка валидации на сервере
-                formMessage.textContent = result.error || 'Ошибка при обновлении поставщика';
+                // Ошибка валидации
+                formMessage.textContent = result.error || 'Ошибка при сохранении данных';
                 formMessage.className = 'error';
 
-                // Показываем ошибки для конкретных полей
+                // Показываем ошибки для полей
                 if (result.validation_errors) {
                     if (result.validation_errors.name) {
                         showFieldError(nameInput, nameError, result.validation_errors.name);
@@ -213,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     /**
-     * Кнопка отмены - закрывает окно
+     * Кнопка отмены
      */
     cancelBtn.addEventListener('click', function() {
         if (confirm('Вы уверены? Все несохраненные изменения будут потеряны.')) {
@@ -240,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     /**
-     * Автоформатирование телефона при вводе
+     * Автоформатирование телефона
      */
     phoneInput.addEventListener('blur', function() {
         let phone = phoneInput.value.replace(/\D/g, '');

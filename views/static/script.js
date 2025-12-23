@@ -204,42 +204,42 @@ function escapeHtml(text) {
 
 /**
  * Открыть окно добавления поставщика
+ * Использует универсальную форму в режиме 'add'
  */
 function openAddSupplierWindow() {
-    // Открываем новое окно с формой добавления
     const width = 700;
     const height = 700;
     const left = (screen.width - width) / 2;
     const top = (screen.height - height) / 2;
     
-    const addWindow = window.open(
-        '/add_supplier',
-        'AddSupplier',
+    const formWindow = window.open(
+        '/supplier_form?mode=add',
+        'SupplierForm',
         `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
     );
     
-    if (!addWindow) {
+    if (!formWindow) {
         alert('Не удалось открыть окно. Проверьте, не блокирует ли браузер всплывающие окна.');
     }
 }
 
 /**
  * Открыть окно редактирования поставщика
+ * Использует универсальную форму в режиме 'edit'
  */
 function openEditSupplierWindow(supplierId) {
-    // Открываем новое окно с формой редактирования
     const width = 700;
     const height = 700;
     const left = (screen.width - width) / 2;
     const top = (screen.height - height) / 2;
     
-    const editWindow = window.open(
-        `/edit_supplier?id=${supplierId}`,
-        'EditSupplier',
+    const formWindow = window.open(
+        `/supplier_form?mode=edit&id=${supplierId}`,
+        'SupplierForm',
         `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
     );
     
-    if (!editWindow) {
+    if (!formWindow) {
         alert('Не удалось открыть окно. Проверьте, не блокирует ли браузер всплывающие окна.');
     }
 }

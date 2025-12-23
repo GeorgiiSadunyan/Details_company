@@ -1,0 +1,269 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
+  <diagram name="Unified Form Sequence" id="unified-sequence">
+    <mxGraphModel dx="3203" dy="1805" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Диаграмма последовательности: Универсальная форма (рефакторинг)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="500" y="5" width="700" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="user" value="Пользователь" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="50" y="60" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="main-view" value="Главное окно" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="150" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="unified-form" value="Supplier Form&#xa;(Универсальная)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="320" y="60" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="http-handler" value="HTTP Handler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="510" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="controller-decision" value="Контроллер&#xa;(Add/Edit)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="680" y="60" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="observable" value="Observable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="870" y="60" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="repository" value="Repository" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="1060" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="observer" value="Observer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="1230" y="60" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lifeline1" value="" style="dashed=1;dashPattern=1 2;strokeWidth=2;html=1;strokeColor=#999;" parent="1" vertex="1">
+          <mxGeometry x="64.5" y="120" width="1" height="1390" as="geometry" />
+        </mxCell>
+        <mxCell id="lifeline2" value="" style="dashed=1;dashPattern=1 2;strokeWidth=2;html=1;strokeColor=#999;" parent="1" vertex="1">
+          <mxGeometry x="209.5" y="120" width="1" height="1390" as="geometry" />
+        </mxCell>
+        <mxCell id="lifeline3" value="" style="dashed=1;dashPattern=1 2;strokeWidth=2;html=1;strokeColor=#999;" parent="1" vertex="1">
+          <mxGeometry x="389.5" y="120" width="1" height="1400" as="geometry" />
+        </mxCell>
+        <mxCell id="lifeline4" value="" style="dashed=1;dashPattern=1 2;strokeWidth=2;html=1;strokeColor=#999;" parent="1" vertex="1">
+          <mxGeometry x="569.5" y="120" width="1" height="1150" as="geometry" />
+        </mxCell>
+        <mxCell id="lifeline5" value="" style="dashed=1;dashPattern=1 2;strokeWidth=2;html=1;strokeColor=#999;" parent="1" vertex="1">
+          <mxGeometry x="749.5" y="120" width="1" height="1150" as="geometry" />
+        </mxCell>
+        <mxCell id="lifeline6" value="" style="dashed=1;dashPattern=1 2;strokeWidth=2;html=1;strokeColor=#999;" parent="1" vertex="1">
+          <mxGeometry x="939.5" y="120" width="1" height="1410" as="geometry" />
+        </mxCell>
+        <mxCell id="lifeline7" value="" style="dashed=1;dashPattern=1 2;strokeWidth=2;html=1;strokeColor=#999;" parent="1" vertex="1">
+          <mxGeometry x="1119.5" y="120" width="1" height="1400" as="geometry" />
+        </mxCell>
+        <mxCell id="lifeline8" value="" style="dashed=1;dashPattern=1 2;strokeWidth=2;html=1;strokeColor=#999;" parent="1" vertex="1">
+          <mxGeometry x="1279.5" y="120" width="1" height="1410" as="geometry" />
+        </mxCell>
+        <mxCell id="note-add" value="Сценарий 1: Режим добавления (mode=add)" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=15;fillColor=#fff2cc;strokeColor=#d6b656;align=left;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="1360" y="150" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="msg1" value="1: Клик &#39;Добавить поставщика&#39;" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="65" y="160" as="sourcePoint" />
+            <mxPoint x="210" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg2" value="2: openAddSupplierWindow()&#xa;window.open(&#39;/supplier_form?mode=add&#39;)" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="210" y="200" as="sourcePoint" />
+            <mxPoint x="390" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg3" value="3: GET /supplier_form?mode=add" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="390" y="240" as="sourcePoint" />
+            <mxPoint x="570" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg4" value="4: supplier_form.html" style="endArrow=open;endFill=0;dashed=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="570" y="270" as="sourcePoint" />
+            <mxPoint x="390" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="self1" value="5: Инициализация&#xa;mode=&#39;add&#39;&#xa;Пустая форма" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="390" y="300" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="450" y="300" />
+              <mxPoint x="450" y="340" />
+            </Array>
+            <mxPoint x="390" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg6" value="6: Заполнение формы" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="65" y="380" as="sourcePoint" />
+            <mxPoint x="390" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg7" value="7: Submit (mode=&#39;add&#39;)" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="65" y="420" as="sourcePoint" />
+            <mxPoint x="390" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg8" value="8: POST /api/suppliers/add" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="390" y="460" as="sourcePoint" />
+            <mxPoint x="570" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg9" value="9: add_supplier()&#xa;→ AddSupplierController" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="570" y="500" as="sourcePoint" />
+            <mxPoint x="750" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg10" value="10: validate_and_add_supplier()" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="750" y="540" as="sourcePoint" />
+            <mxPoint x="940" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg11" value="11: add(supplier)" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="940" y="580" as="sourcePoint" />
+            <mxPoint x="1120" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg12" value="12: INSERT INTO suppliers" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="1120" y="610" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="1180" y="610" />
+              <mxPoint x="1180" y="640" />
+            </Array>
+            <mxPoint x="1120" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg13" value="13: notify(&#39;item_added&#39;)" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="940" y="680" as="sourcePoint" />
+            <mxPoint x="1280" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg14" value="14: postMessage(&#39;supplier_added&#39;)" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="390" y="720" as="sourcePoint" />
+            <mxPoint x="210" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note-edit" value="Сценарий 2: Режим редактирования (mode=edit)" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=15;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="1360" y="760" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="msg20" value="15: Клик &#39;Редактировать (id=123)&#39;" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="65" y="770" as="sourcePoint" />
+            <mxPoint x="210" y="770" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg21" value="16: openEditSupplierWindow(123)&#xa;window.open(&#39;/supplier_form?mode=edit&amp;id=123&#39;)" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="210" y="810" as="sourcePoint" />
+            <mxPoint x="390" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg22" value="17: GET /supplier_form?mode=edit&amp;id=123" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="390" y="850" as="sourcePoint" />
+            <mxPoint x="570" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg23" value="18: supplier_form.html" style="endArrow=open;endFill=0;dashed=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="570" y="880" as="sourcePoint" />
+            <mxPoint x="390" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="self2" value="19: Инициализация&#xa;mode=&#39;edit&#39;&#xa;Загрузка данных..." style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="390" y="910" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="450" y="910" />
+              <mxPoint x="450" y="950" />
+            </Array>
+            <mxPoint x="390" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg24" value="20: GET /api/suppliers/123" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="390" y="990" as="sourcePoint" />
+            <mxPoint x="570" y="990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg25" value="21: get_supplier_details(123)&#xa;→ SupplierController" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="570" y="1030" as="sourcePoint" />
+            <mxPoint x="750" y="1030" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg26" value="22: Заполнение полей данными" style="endArrow=open;endFill=0;dashed=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="570" y="1070" as="sourcePoint" />
+            <mxPoint x="390" y="1070" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg27" value="23: Редактирование" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="65" y="1110" as="sourcePoint" />
+            <mxPoint x="390" y="1110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg28" value="24: Submit (mode=&#39;edit&#39;)" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="65" y="1150" as="sourcePoint" />
+            <mxPoint x="390" y="1150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg29" value="25: PUT /api/suppliers/edit" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="390" y="1190" as="sourcePoint" />
+            <mxPoint x="570" y="1190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg30" value="26: edit_supplier()&#xa;→ EditSupplierController" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="570" y="1230" as="sourcePoint" />
+            <mxPoint x="750" y="1230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg31" value="27: validate_and_update_supplier()" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="750" y="1270" as="sourcePoint" />
+            <mxPoint x="940" y="1270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg32" value="28: replace_by_id(123, supplier)" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="940" y="1310" as="sourcePoint" />
+            <mxPoint x="1120" y="1310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg33" value="29: UPDATE suppliers" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="1120" y="1340" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="1180" y="1340" />
+              <mxPoint x="1180" y="1370" />
+            </Array>
+            <mxPoint x="1120" y="1370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg34" value="30: notify(&#39;item_updated&#39;)" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="940" y="1410" as="sourcePoint" />
+            <mxPoint x="1280" y="1410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg35" value="31: postMessage(&#39;supplier_updated&#39;)" style="endArrow=block;endFill=1;html=1;rounded=0;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry x="0.1" y="10" relative="1" as="geometry">
+            <mxPoint x="390" y="1450" as="sourcePoint" />
+            <mxPoint x="210" y="1450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

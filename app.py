@@ -57,10 +57,9 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
         # Маршрутизация
         if path == "/":
             self.serve_html("views/index.html")
-        elif path == "/add_supplier":
-            self.serve_html("views/add_supplier.html")
-        elif path == "/edit_supplier":
-            self.serve_html("views/edit_supplier.html")
+        elif path == "/supplier_form":
+            # Универсальная форма для добавления и редактирования
+            self.serve_html("views/supplier_form.html")
         elif path.startswith("/static/"):
             self.serve_static(path)
         elif path == "/api/suppliers":
