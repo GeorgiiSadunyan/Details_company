@@ -76,13 +76,25 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
             self.send_error_response(404, "Страница не найдена")
 
     def get_suppliers_list(self, query_params):
-        """Получить список поставщиков (краткая информация)"""
+        """Получить список поставщиков (краткая информация)
+        с фильтрацией и сортировкой"""
         try:
             page = int(query_params.get("page", ["1"])[0])
             page_size = int(query_params.get("page_size", ["10"])[0])
 
-            # Вызов метода контроллера
-            result = self.controller.get_suppliers_page(page, page_size)
+            # Параметры фильтрации и сортировки (Decorator Pattern)
+            filter_field = query_params.get("filter_field", [None])[0]
+            filter_value = query_params.get("filter_value", [None])[0]
+            sort_field = query_params.get("sort_field", ["supplier_id"])[0]
+
+            # Вызов метода контроллера с параметрами декоратора
+            result = self.controller.get_suppliers_page(
+                page=page,
+                page_size=page_size,
+                filter_field=filter_field,
+                filter_value=filter_value,
+                sort_field=sort_field,
+            )
             self.send_json_response(result)
         except ValueError as e:
             self.send_error_response(400, str(e))
@@ -93,7 +105,7 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
         """Получить полную информацию о поставщике"""
         try:
             # Вызов метода контроллера
-            result = self.controller.get_supplier_details(supplier_id)
+            result = self.controller.get_supplier_details(supplier_id) # type: ignore
             self.send_json_response(result)
         except Exception as e:
             self.send_error_response(500, f"Внутренняя ошибка сервера: {str(e)}")

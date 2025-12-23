@@ -6,6 +6,11 @@
 let currentPage = 1;
 const pageSize = 10;
 
+// Параметры фильтрации и сортировки
+let filterField = '';
+let filterValue = '';
+let sortField = 'supplier_id';
+
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     loadSuppliers(currentPage);
@@ -24,6 +29,22 @@ function setupEventListeners() {
     // Кнопка добавления - открывает новое окно
     document.getElementById('addBtn').addEventListener('click', function() {
         openAddSupplierWindow();
+    });
+
+    // Фильтрация и сортировка
+    document.getElementById('applyFilterBtn').addEventListener('click', function() {
+        applyFilter();
+    });
+
+    document.getElementById('resetFilterBtn').addEventListener('click', function() {
+        resetFilter();
+    });
+
+    // Enter в поле фильтра
+    document.getElementById('filterValue').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            applyFilter();
+        }
     });
 
     // Закрытие модального окна
@@ -45,6 +66,7 @@ function setupEventListeners() {
 /**
  * Загрузка списка поставщиков (краткая информация)
  * Реализация паттерна Observer - данные приходят через уведомление от Subject
+ * Используется Decorator Pattern для фильтрации и сортировки
  */
 async function loadSuppliers(page) {
     const tableBody = document.getElementById('suppliersTableBody');
@@ -55,14 +77,33 @@ async function loadSuppliers(page) {
     infoText.textContent = 'Загрузка...';
 
     try {
+        // Формируем URL с параметрами фильтрации и сортировки
+        let url = `/api/suppliers?page=${page}&page_size=${pageSize}`;
+        
+        // Добавляем параметры фильтрации (Decorator Pattern)
+        if (filterField && filterValue) {
+            url += `&filter_field=${encodeURIComponent(filterField)}&filter_value=${encodeURIComponent(filterValue)}`;
+        }
+        
+        // Добавляем параметр сортировки (Decorator Pattern)
+        if (sortField) {
+            url += `&sort_field=${encodeURIComponent(sortField)}`;
+        }
+
         // Запрос к контроллеру для получения данных
-        const response = await fetch(`/api/suppliers?page=${page}&page_size=${pageSize}`);
+        const response = await fetch(url);
         const data = await response.json();
 
         if (data.success) {
             displaySuppliers(data.items);
             displayPagination(data.page, data.total_pages);
-            infoText.textContent = `Показано ${data.items.length} из ${data.total_count} поставщиков`;
+            
+            // Показываем информацию с учетом фильтра
+            let infoMessage = `Показано ${data.items.length} из ${data.total_count} поставщиков`;
+            if (filterField && filterValue) {
+                infoMessage += ` (фильтр: ${getFieldName(filterField)} содержит "${filterValue}")`;
+            }
+            infoText.textContent = infoMessage;
         } else {
             showError(tableBody, data.error);
         }
@@ -345,6 +386,63 @@ function showNotification(message, type = 'success') {
             document.body.removeChild(notification);
         }, 300);
     }, 3000);
+}
+
+/**
+ * Применить фильтр (Decorator Pattern)
+ */
+function applyFilter() {
+    filterField = document.getElementById('filterField').value;
+    filterValue = document.getElementById('filterValue').value.trim();
+    sortField = document.getElementById('sortField').value;
+    
+    // Проверка: если выбрано поле фильтра, но не указано значение
+    if (filterField && !filterValue) {
+        showNotification('Укажите значение для фильтра', 'error');
+        document.getElementById('filterValue').focus();
+        return;
+    }
+    
+    // Сбрасываем на первую страницу при применении фильтра
+    currentPage = 1;
+    loadSuppliers(currentPage);
+    
+    console.log('[Decorator] Применен фильтр:', {
+        field: filterField,
+        value: filterValue,
+        sort: sortField
+    });
+}
+
+/**
+ * Сбросить фильтр
+ */
+function resetFilter() {
+    filterField = '';
+    filterValue = '';
+    sortField = 'supplier_id';
+    
+    document.getElementById('filterField').value = '';
+    document.getElementById('filterValue').value = '';
+    document.getElementById('sortField').value = 'supplier_id';
+    
+    currentPage = 1;
+    loadSuppliers(currentPage);
+    
+    console.log('[Decorator] Фильтр сброшен');
+}
+
+/**
+ * Получить русское название поля
+ */
+function getFieldName(field) {
+    const names = {
+        'name': 'Наименование',
+        'phone': 'Телефон',
+        'address': 'Адрес',
+        'supplier_id': 'ID'
+    };
+    return names[field] || field;
 }
 
 

@@ -19,6 +19,39 @@
                 <button id="addBtn" class="btn btn-success">Добавить поставщика</button>
             </div>
 
+            <!-- Фильтрация и сортировка -->
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label for="filterField">Фильтр по полю:</label>
+                    <select id="filterField" class="filter-select">
+                        <option value="">Без фильтра</option>
+                        <option value="name">Наименование</option>
+                        <option value="phone">Телефон</option>
+                        <option value="address">Адрес</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filterValue">Значение:</label>
+                    <input type="text" id="filterValue" class="filter-input" placeholder="Введите значение для фильтра">
+                </div>
+
+                <div class="filter-group">
+                    <label for="sortField">Сортировка:</label>
+                    <select id="sortField" class="filter-select">
+                        <option value="supplier_id">ID</option>
+                        <option value="name">Наименование</option>
+                        <option value="phone">Телефон</option>
+                        <option value="address">Адрес</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <button id="applyFilterBtn" class="btn btn-info">Применить</button>
+                    <button id="resetFilterBtn" class="btn btn-secondary">Сбросить</button>
+                </div>
+            </div>
+
             <div class="table-container">
                 <table id="suppliersTable">
                     <thead>

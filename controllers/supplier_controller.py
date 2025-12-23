@@ -16,26 +16,76 @@ class SupplierController:
     def __init__(self, repository: SupplierRepObservable):
         self.repository = repository
 
-    def get_suppliers_page(self, page: int = 1, page_size: int = 10) -> dict:
+    def get_suppliers_page(
+        self,
+        page: int = 1,
+        page_size: int = 10,
+        filter_field: str = None,  # type: ignore
+        filter_value: str = None,  # type: ignore
+        sort_field: str = "supplier_id",
+    ) -> dict:
         """
         Получить страницу со списком поставщиков (краткая информация)
+        С поддержкой фильтрации и сортировки через Decorator Pattern
 
         Args:
             page: номер страницы (начиная с 1)
             page_size: количество элементов на странице
+            filter_field: поле для фильтрации (name, phone, address)
+            filter_value: значение для фильтрации
+            sort_field: поле для сортировки (supplier_id, name, phone, address)
 
         Returns:
             Словарь с данными: items, total_count, page, page_size, total_pages
         """
         try:
-            # Получаем краткий список поставщиков
-            suppliers_mini = self.repository.get_k_n_short_list(page, page_size)
+            # Используем Decorator Pattern для фильтрации и сортировки
+            from modules.Decorators import SupplierDB_Decorator
+            from modules.supplier_rep_DB import Supplier_rep_DB
 
-            # Получаем общее количество
-            total_count = self.repository.get_count()
+            # Получаем базовый репозиторий из Observable
+            base_repo = self.repository.repository
+
+            # Если это DB репозиторий, используем декоратор
+            if isinstance(base_repo, Supplier_rep_DB):
+                decorator = SupplierDB_Decorator(base_repo)
+
+                # Получаем краткий список с фильтрацией и сортировкой
+                suppliers_mini = decorator.get_k_n_short_list(
+                    k=page,
+                    n=page_size,
+                    filter_field=filter_field,
+                    filter_value=filter_value,
+                    sort_field=sort_field,
+                )
+
+                # Получаем общее количество с учетом фильтра
+                total_count = decorator.get_count(
+                    filter_field=filter_field, filter_value=filter_value
+                )
+            else:
+                # Для файловых репозиториев используем файловый декоратор
+                from modules.Decorators import SupplierFiles_Decorator
+
+                decorator = SupplierFiles_Decorator(base_repo)
+
+                suppliers_mini = decorator.get_k_n_short_list(
+                    k=page,
+                    n=page_size,
+                    filter_field=filter_field,
+                    filter_value=filter_value,
+                    sort_field=sort_field,
+                )
+
+                total_count = decorator.get_count(
+                    filter_field=filter_field, filter_value=filter_value
+                )
 
             # Вычисляем общее количество страниц
-            total_pages = (total_count + page_size - 1) // page_size
+            if total_count > 0:
+                total_pages = (total_count + page_size - 1) // page_size
+            else:
+                total_pages = 1
 
             return {
                 "success": True,
