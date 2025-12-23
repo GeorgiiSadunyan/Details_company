@@ -82,10 +82,7 @@ class SupplierController:
         except Exception as e:
             return {"success": False, "error": str(e)}
 
-    def add_supplier(self,
-                     name: str,
-                     phone: str,
-                     address: str = None) -> dict: # type: ignore
+    def add_supplier(self, name: str, phone: str, address: str = None) -> dict:  # type: ignore
         """
         Добавить нового поставщика
 
@@ -110,11 +107,12 @@ class SupplierController:
         except Exception as e:
             return {"success": False, "error": str(e)}
 
-    def update_supplier(self,
-                        supplier_id: int,
-                        name: str,
-                        phone: str,
-                        address: str = None # type: ignore
+    def update_supplier(
+        self,
+        supplier_id: int,
+        name: str,
+        phone: str,
+        address: str = None,  # type: ignore
     ) -> dict:
         """
         Обновить данные поставщика

@@ -17,7 +17,10 @@ class AddSupplierController:
         self.repository = repository
 
     def validate_and_add_supplier(
-        self, name: str, phone: str, address: str = None  # type: ignore
+        self,
+        name: str,
+        phone: str,
+        address: str = None,  # type: ignore
     ) -> dict:
         """
         Валидация и добавление нового поставщика
@@ -50,7 +53,11 @@ class AddSupplierController:
 
         # Попытка создания объекта поставщика (здесь произойдет валидация формата)
         try:
-            supplier = Supplier(name=name.strip(), phone=phone.strip(), address=address.strip() if address else None)
+            supplier = Supplier(
+                name=name.strip(),
+                phone=phone.strip(),
+                address=address.strip() if address else None,
+            )
         except ValueError as e:
             # Парсим ошибку и определяем поле
             error_msg = str(e)
@@ -90,4 +97,3 @@ class AddSupplierController:
                 "error": f"Ошибка при добавлении поставщика: {str(e)}",
                 "validation_errors": {"general": str(e)},
             }
-

@@ -32,7 +32,7 @@ class EditSupplierController:
             if supplier is None:
                 return {
                     "success": False,
-                    "error": f"Поставщик с ID {supplier_id} не найден"
+                    "error": f"Поставщик с ID {supplier_id} не найден",
                 }
 
             return {
@@ -41,17 +41,18 @@ class EditSupplierController:
                     "supplier_id": supplier.supplier_id,
                     "name": supplier.name,
                     "phone": supplier.phone,
-                    "address": supplier.address
-                }
+                    "address": supplier.address,
+                },
             }
         except Exception as e:
-            return {
-                "success": False,
-                "error": f"Ошибка при получении данных: {str(e)}"
-            }
+            return {"success": False, "error": f"Ошибка при получении данных: {str(e)}"}
 
     def validate_and_update_supplier(
-        self, supplier_id: int, name: str, phone: str, address: str = None  # type: ignore
+        self,
+        supplier_id: int,
+        name: str,
+        phone: str,
+        address: str = None,  # type: ignore
     ) -> dict:
         """
         Валидация и обновление данных поставщика
@@ -71,7 +72,7 @@ class EditSupplierController:
             return {
                 "success": False,
                 "error": f"Поставщик с ID {supplier_id} не найден",
-                "validation_errors": {"general": "Поставщик не существует"}
+                "validation_errors": {"general": "Поставщик не существует"},
             }
 
         # Словарь для сбора ошибок валидации
@@ -97,9 +98,9 @@ class EditSupplierController:
             supplier = Supplier(
                 name=name.strip(),
                 phone=phone.strip(),
-                address=address.strip() if address else None
+                address=address.strip() if address else None,
             )
-            supplier.supplier_id = supplier_id # Устанавливаем ID редактируемого п-ка
+            supplier.supplier_id = supplier_id  # Устанавливаем ID редактируемого п-ка
         except ValueError as e:
             # Парсим ошибку и определяем поле
             error_msg = str(e)
@@ -138,4 +139,3 @@ class EditSupplierController:
                 "error": f"Ошибка при обновлении поставщика: {str(e)}",
                 "validation_errors": {"general": str(e)},
             }
-

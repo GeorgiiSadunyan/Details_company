@@ -93,6 +93,9 @@ function displaySuppliers(suppliers) {
                 <button class="btn btn-warning" onclick="event.stopPropagation(); openEditSupplierWindow(${supplier.supplier_id})">
                     Редактировать
                 </button>
+                <button class="btn btn-danger" onclick="event.stopPropagation(); deleteSupplier(${supplier.supplier_id}, '${escapeHtml(supplier.name).replace(/'/g, "\\'")}')">
+                    Удалить
+                </button>
             </td>
         </tr>
     `).join('');
@@ -245,6 +248,48 @@ function openEditSupplierWindow(supplierId) {
 }
 
 /**
+ * Удалить поставщика
+ * Паттерн Observer - Subject уведомит наблюдателей об удалении
+ */
+async function deleteSupplier(supplierId, supplierName) {
+    // Подтверждение удаления
+    const confirmed = confirm(
+        `Вы уверены, что хотите удалить поставщика "${supplierName}"?\n\n` +
+        `ID: ${supplierId}\n` +
+        `Это действие нельзя отменить!`
+    );
+    
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+        // Отправляем DELETE запрос к контроллеру
+        const response = await fetch(`/api/suppliers/${supplierId}`, {
+            method: 'DELETE'
+        });
+        
+        const result = await response.json();
+
+        if (result.success) {
+            console.log('[Observer] Поставщик успешно удален:', supplierId);
+            
+            // Обновляем список
+            loadSuppliers(currentPage);
+            
+            // Показываем уведомление
+            showNotification(result.message || 'Поставщик успешно удален!', 'success');
+        } else {
+            // Показываем ошибку
+            showNotification(result.error || 'Ошибка при удалении', 'error');
+        }
+    } catch (error) {
+        console.error('Ошибка при удалении поставщика:', error);
+        showNotification('Ошибка соединения с сервером: ' + error.message, 'error');
+    }
+}
+
+/**
  * Обработка сообщений от дочерних окон
  */
 window.addEventListener('message', function(event) {
@@ -256,7 +301,7 @@ window.addEventListener('message', function(event) {
         loadSuppliers(currentPage);
         
         // Показываем уведомление
-        showNotification('Поставщик успешно добавлен!');
+        showNotification('Поставщик успешно добавлен!', 'success');
     } else if (event.data && event.data.type === 'supplier_updated') {
         console.log('[Observer] Получено уведомление об обновлении поставщика:', event.data.supplier_id);
         
@@ -264,22 +309,25 @@ window.addEventListener('message', function(event) {
         loadSuppliers(currentPage);
         
         // Показываем уведомление
-        showNotification('Поставщик успешно обновлен!');
+        showNotification('Поставщик успешно обновлен!', 'success');
     }
 });
 
 /**
  * Показать уведомление пользователю
  */
-function showNotification(message) {
+function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
-    notification.className = 'notification success-notification';
+    notification.className = 'notification';
     notification.textContent = message;
+    
+    const backgroundColor = type === 'success' ? '#48bb78' : '#f56565';
+    
     notification.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
-        background: #48bb78;
+        background: ${backgroundColor};
         color: white;
         padding: 15px 25px;
         border-radius: 6px;

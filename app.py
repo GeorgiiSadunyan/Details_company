@@ -11,6 +11,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs, urlparse
 
 from controllers.add_supplier_controller import AddSupplierController
+from controllers.delete_supplier_controller import DeleteSupplierController
 from controllers.edit_supplier_controller import EditSupplierController
 from controllers.supplier_controller import SupplierController
 from modules.observer import Observer
@@ -46,6 +47,7 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
     controller: SupplierController = None  # type: ignore
     add_controller: AddSupplierController = None  # type: ignore
     edit_controller: EditSupplierController = None  # type: ignore
+    delete_controller: DeleteSupplierController = None  # type: ignore
     view_observer: ViewObserver = None  # type: ignore
 
     def do_GET(self):
@@ -172,6 +174,21 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
         else:
             self.send_error_response(404, "Endpoint не найден")
 
+    def do_DELETE(self):
+        """Обработка DELETE запросов"""
+        parsed_path = urlparse(self.path)
+        path = parsed_path.path
+
+        # Маршрутизация DELETE запросов
+        if path.startswith("/api/suppliers/"):
+            supplier_id = path.split("/")[-1]
+            if supplier_id.isdigit():
+                self.delete_supplier(int(supplier_id))
+            else:
+                self.send_error_response(400, "Некорректный ID поставщика")
+        else:
+            self.send_error_response(404, "Endpoint не найден")
+
     def add_supplier(self):
         """Добавление нового поставщика через AddSupplierController"""
         try:
@@ -221,6 +238,15 @@ class SupplierRequestHandler(BaseHTTPRequestHandler):
         except Exception as e:
             self.send_error_response(500, f"Внутренняя ошибка сервера: {str(e)}")
 
+    def delete_supplier(self, supplier_id: int):
+        """Удаление поставщика через DeleteSupplierController"""
+        try:
+            # Вызываем метод контроллера удаления
+            result = self.delete_controller.validate_and_delete_supplier(supplier_id)
+            self.send_json_response(result)
+        except Exception as e:
+            self.send_error_response(500, f"Внутренняя ошибка сервера: {str(e)}")
+
     def log_message(self, format, *args):
         """Переопределение логирования для более читаемого вывода"""
         print(f"[{self.log_date_time_string()}] {format % args}")
@@ -258,12 +284,15 @@ def initialize_app():
     edit_controller = EditSupplierController(observable_repo)
     print("[OK] Контроллер редактирования создан (паттерн MVC для нового окна)")
 
+    delete_controller = DeleteSupplierController(observable_repo)
+    print("[OK] Контроллер удаления создан (паттерн MVC)")
+
     print("=" * 60)
     print("[OK] Приложение успешно инициализировано!")
     print("=" * 60)
     print()
 
-    return controller, add_controller, edit_controller, view_observer
+    return controller, add_controller, edit_controller, delete_controller, view_observer
 
 
 def run_server(host="localhost", port=8000):
@@ -271,12 +300,15 @@ def run_server(host="localhost", port=8000):
     Запуск HTTP сервера
     """
     # Инициализация приложения
-    controller, add_controller, edit_controller, view_observer = initialize_app()
+    controller, add_controller, edit_controller, delete_controller, view_observer = (
+        initialize_app()
+    )
 
     # Устанавливаем контроллеры для обработчика запросов
     SupplierRequestHandler.controller = controller
     SupplierRequestHandler.add_controller = add_controller
     SupplierRequestHandler.edit_controller = edit_controller
+    SupplierRequestHandler.delete_controller = delete_controller
     SupplierRequestHandler.view_observer = view_observer
 
     # Создаем и запускаем сервер
