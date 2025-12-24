@@ -1,5 +1,4 @@
 from datetime import date, datetime
-from decimal import Decimal
 
 from modules.models.purchase_base import PurchaseBase
 from modules.models.purchase_mini import PurchaseMini
